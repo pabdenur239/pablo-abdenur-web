@@ -16,6 +16,15 @@
   <link rel="canonical" href="https://pabdenur239.github.io/pablo-abdenur-web/">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="css/style.css">
+  <style>
+    .projects{background:var(--paper)}
+    .projects-heading>p{color:var(--muted)}
+    .projects-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:28px}
+    .project-card{background:white;border:1px solid var(--line);border-top:4px solid var(--magenta);padding:38px;min-height:290px}
+    .project-card h3{font-size:clamp(24px,2.5vw,32px);margin:28px 0 16px}
+    .project-card p{color:var(--muted);margin-bottom:0}
+    @media(max-width:800px){.projects-grid{grid-template-columns:1fr}.project-card{min-height:auto}}
+  </style>
   <script src="js/app.js" defer></script>
 </head>
 <body>
@@ -33,6 +42,7 @@
       <nav class="main-nav" id="mainNav" aria-label="Navegación principal">
         <a href="#quien-soy">Quién soy</a>
         <a href="#ejes">Ejes de trabajo</a>
+        <a href="#proyectos">Proyectos</a>
         <a href="#actividad">Actividad</a>
         <a href="#contacto" class="nav-cta">Contacto</a>
       </nav>
@@ -47,7 +57,7 @@
           <h1 id="hero-title">Compromiso con<br><em>los vecinos.</em></h1>
           <p class="hero-lead">Trabajo con estudio, evidencia y cercanía para defender a los vecinos y mejorar los servicios públicos de Libertador General San Martín.</p>
           <div class="hero-actions">
-            <a class="button button-primary" href="#ejes">Conocé mis ejes de trabajo</a>
+            <a class="button button-primary" href="#proyectos">Conocé mis proyectos</a>
             <a class="button button-ghost" href="#contacto">Contactame</a>
           </div>
         </div>
@@ -75,8 +85,9 @@
         </div>
         <div class="intro-copy">
           <p class="lead">Soy Pablo Abdenur, concejal, comerciante y vecino de Libertador General San Martín.</p>
-          <p>Mi actividad pública se centra en el control de la gestión, la defensa de los vecinos, la transparencia y la mejora de los servicios públicos.</p>
-          <p>Antes de tomar una posición, estudio cada tema, analizo la información disponible y escucho a quienes viven el problema todos los días.</p>
+          <p>Tengo experiencia directa en la actividad comercial, vinculada también al comercio DOSIS, e integro la Comisión de Hacienda del Concejo Deliberante.</p>
+          <p>Mi trabajo se centra en el control de la gestión, la transparencia, la defensa de los vecinos, los servicios públicos y el desarrollo comercial y productivo.</p>
+          <p>Antes de tomar una posición, estudio la información disponible y escucho a quienes viven cada problemática.</p>
           <div class="signature">Pablo Abdenur</div>
         </div>
       </div>
@@ -110,6 +121,47 @@
             <h3>Educación pública</h3>
             <p>Reconocimiento al trabajo docente y acompañamiento a una educación pública sostenida con salarios dignos.</p>
           </article>
+          <article class="axis-card">
+            <span>05</span>
+            <h3>Participación ciudadana</h3>
+            <p>Escucha activa, reuniones abiertas y canales accesibles para que las propuestas y reclamos de los vecinos puedan transformarse en iniciativas concretas.</p>
+          </article>
+          <article class="axis-card">
+            <span>06</span>
+            <h3>Gestión y control</h3>
+            <p>Análisis responsable del presupuesto, los tributos, las concesiones y las decisiones municipales desde la Comisión de Hacienda.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section projects" id="proyectos">
+      <div class="container">
+        <div class="section-heading projects-heading">
+          <div><p class="section-kicker">Proyectos</p><h2>Proyectos e iniciativas</h2></div>
+          <p>Propuestas concretas para modernizar la gestión, fortalecer la economía local y defender a los vecinos.</p>
+        </div>
+        <div class="projects-grid">
+          <article class="project-card">
+            <span class="tag">Propuesta institucional</span>
+            <h3>Dirección de Desarrollo Comercial y Productivo</h3>
+            <p>Propuesta para transformar y fortalecer el área municipal vinculada al comercio, incorporando herramientas de desarrollo, capacitación, digitalización y acompañamiento a comerciantes, pymes y emprendedores.</p>
+          </article>
+          <article class="project-card">
+            <span class="tag">Propuesta pública · 2026</span>
+            <h3>Revisión del servicio eléctrico</h3>
+            <p>Revisión de la concesión de EJESA, del costo de distribución y de la composición de la tarifa; revisión y ampliación de la Tarifa Social y mayor transparencia para los usuarios.</p>
+          </article>
+          <article class="project-card">
+            <span class="tag">Eje de trabajo</span>
+            <h3>Información pública y control municipal</h3>
+            <p>Impulso de mecanismos que permitan comprender el presupuesto, los gastos, las contrataciones y las decisiones que afectan a los vecinos.</p>
+          </article>
+          <article class="project-card">
+            <span class="tag">Eje de trabajo</span>
+            <h3>Canales de participación vecinal</h3>
+            <p>Promoción de espacios de escucha y participación para recibir reclamos, propuestas e iniciativas de los barrios.</p>
+          </article>
         </div>
       </div>
     </section>
@@ -128,17 +180,9 @@
             <a href="https://www.facebook.com/share/1HhU1f6o83/" target="_blank" rel="noopener noreferrer">Ver publicación en Facebook <span aria-hidden="true">↗</span></a>
           </div>
         </article>
-        <article class="activity-feature">
-          <div class="activity-date"><b>PRO</b><span>YECTO</span></div>
-          <div>
-            <span class="tag">Proyecto</span>
-            <h3>Creación de la Dirección de Desarrollo Comercial y Productivo</h3>
-            <p>Una iniciativa para modernizar y fortalecer el sector comercial y productivo, transformar el funcionamiento actual de la Dirección de Comercio e incorporar herramientas de desarrollo, capacitación y digitalización.</p>
-          </div>
-        </article>
         <div class="position-grid">
-          <article><p class="section-kicker">Posición pública</p><h3>Tarifas y servicios</h3><p>Las facturas deben ser comprensibles, la tarifa social debe llegar a quienes la necesitan y toda concesión debe poder revisarse.</p></article>
-          <article><p class="section-kicker">Posición pública</p><h3>Educación</h3><p>Defender la educación pública también significa reconocer el trabajo cotidiano de quienes sostienen nuestras escuelas.</p></article>
+          <article><p class="section-kicker">Propuesta institucional</p><h3>Desarrollo comercial y productivo</h3><p>Trabajo en una propuesta para modernizar el área municipal de comercio y generar mejores herramientas para comerciantes, pymes y emprendedores.</p></article>
+          <article><p class="section-kicker">Trabajo territorial</p><h3>Escucha y cercanía con los vecinos</h3><p>El trabajo legislativo también requiere escuchar los problemas cotidianos, analizar cada situación y acercar respuestas responsables.</p></article>
         </div>
       </div>
     </section>
@@ -148,7 +192,7 @@
         <div>
           <p class="section-kicker">Contacto</p>
           <h2>Sigamos en contacto</h2>
-          <p>Podés escribirme por correo o seguir mi actividad pública en Facebook.</p>
+          <p>Podés escribirme por correo o seguir mi actividad pública en Facebook. También podés acercar una propuesta, una inquietud o un problema de tu barrio.</p>
         </div>
         <div class="contact-links">
           <a href="mailto:pablo_abdenur@hotmail.com"><span>Correo electrónico</span><strong>pablo_abdenur@hotmail.com</strong><b aria-hidden="true">→</b></a>

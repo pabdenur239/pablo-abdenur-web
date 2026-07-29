@@ -6,7 +6,8 @@ Sitio institucional publicado de Pablo Abdenur, concejal de Libertador General S
 
 - Sitio publicado mediante GitHub Pages.
 - Diseño responsive para escritorio y dispositivos móviles.
-- Contenido institucional, ejes de trabajo, actividad pública y proyectos incorporados.
+- Contenido institucional ampliado, seis ejes de trabajo y actividad pública incorporados.
+- Sección de proyectos e iniciativas con contenido confirmado.
 - Facebook oficial y correo `pablo_abdenur@hotmail.com` configurados.
 - Imagen institucional configurada para compartir el sitio.
 - Fotografías institucionales reales todavía pendientes de incorporar.
