@@ -1,13 +1,18 @@
-Pablo Abdenur - Sitio institucional
+# Pablo Abdenur — Sitio institucional
 
-Este repositorio contiene el sitio institucional de Pablo Abdenur, Concejal de Libertador General San Martin, Jujuy. Es una version temporal publicada gratuitamente mediante GitHub Pages, sin costo de hosting, mientras se define la conexion de un dominio propio.
+Sitio institucional de Pablo Abdenur, concejal de Libertador General San Martín, Jujuy.
 
-Estructura del proyecto: index.html contiene el contenido principal, css/style.css contiene los estilos, js/app.js contiene el comportamiento del menu movil y el anio dinamico del pie de pagina, y assets/img contiene las fotografias institucionales pendientes de incorporar.
+## Estructura
 
-Secciones incluidas: Inicio, Quien soy, Propuestas (ejes de trabajo), Proyectos, Gestion, Actividad, Posiciones publicas y Contacto.
+- `index.html`: contenido y metadatos.
+- `css/style.css`: identidad visual y diseño adaptable.
+- `js/app.js`: navegación móvil accesible y año dinámico.
+- `assets/img/og-pablo-abdenur.png`: imagen para compartir el sitio.
 
-Fuentes del contenido: el contenido politico incorporado proviene exclusivamente de la pagina oficial de Facebook de Pablo Abdenur (publicaciones publicas de texto). No se incorporaron fotografias desde Facebook ni de ninguna otra fuente externa.
+## Publicación
 
-Pendiente: fotografia de portada y fotografias institucionales, resena personal y trayectoria completa, proyectos formalmente presentados ante el Concejo Deliberante, enlaces de WhatsApp e Instagram, y correo electronico de contacto.
+El sitio es estático y puede publicarse directamente con GitHub Pages. Está preparado para conectar un dominio propio cuando se defina el nombre de dominio: en ese momento se agrega el archivo `CNAME` y se configura el DNS.
 
-Publicacion: el sitio se publica unicamente en su direccion temporal de GitHub Pages. El archivo CNAME y la conexion del dominio propio se agregaran unicamente cuando exista autorizacion expresa para hacerlo.
+## Contenido
+
+El contenido político publicado se limita a información confirmada por el equipo y a intervenciones públicas de Pablo Abdenur. No se incluyen biografía, expedientes, redes sociales ni canales de contacto que no hayan sido confirmados.
