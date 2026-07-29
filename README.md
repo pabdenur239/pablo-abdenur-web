@@ -1,18 +1,30 @@
 # Pablo Abdenur — Sitio institucional
 
-Sitio institucional de Pablo Abdenur, concejal de Libertador General San Martín, Jujuy.
+Sitio institucional publicado de Pablo Abdenur, concejal de Libertador General San Martín, Jujuy.
+
+## Estado actual
+
+- Sitio publicado mediante GitHub Pages.
+- Diseño responsive para escritorio y dispositivos móviles.
+- Contenido institucional, ejes de trabajo, actividad pública y proyectos incorporados.
+- Facebook oficial y correo `pablo_abdenur@hotmail.com` configurados.
+- Imagen institucional configurada para compartir el sitio.
+- Fotografías institucionales reales todavía pendientes de incorporar.
+
+## Publicación
+
+La versión pública está disponible en:
+
+`https://pabdenur239.github.io/pablo-abdenur-web/`
+
+El dominio propio todavía no está conectado. No existe un archivo `CNAME` y el sitio continúa usando la dirección predeterminada de GitHub Pages.
 
 ## Estructura
 
 - `index.html`: contenido y metadatos.
-- `css/style.css`: identidad visual y diseño adaptable.
+- `css/style.css`: identidad visual y diseño responsive.
 - `js/app.js`: navegación móvil accesible y año dinámico.
 - `assets/img/og-pablo-abdenur.png`: imagen para compartir el sitio.
+- `favicon.svg`: ícono del sitio con la identidad visual institucional.
 
-## Publicación
-
-El sitio es estático y puede publicarse directamente con GitHub Pages. Está preparado para conectar un dominio propio cuando se defina el nombre de dominio: en ese momento se agrega el archivo `CNAME` y se configura el DNS.
-
-## Contenido
-
-El contenido político publicado se limita a información confirmada por el equipo y a intervenciones públicas de Pablo Abdenur. No se incluyen biografía, expedientes, redes sociales ni canales de contacto que no hayan sido confirmados.
+El contenido publicado se limita a información confirmada por el equipo y a intervenciones públicas de Pablo Abdenur.
