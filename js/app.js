@@ -1,25 +1,16 @@
-// Sitio institucional de Pablo Abdenur
-// Menu movil y ano dinamico en el footer
+const toggle = document.querySelector('#navToggle');
+const nav = document.querySelector('#mainNav');
 
-document.addEventListener('DOMContentLoaded', function () {
-    var navToggle = document.getElementById('navToggle');
-    var mainNav = document.getElementById('mainNav');
+function setMenu(open) {
+  nav.classList.toggle('open', open);
+  toggle.setAttribute('aria-expanded', String(open));
+  toggle.querySelector('.sr-only').textContent = open ? 'Cerrar menú' : 'Abrir menú';
+  document.body.classList.toggle('menu-open', open);
+}
 
-                            if (navToggle && mainNav) {
-                                  navToggle.addEventListener('click', function () {
-                                          mainNav.classList.toggle('open');
-                                  });
-
-      var navLinks = mainNav.querySelectorAll('a');
-                                  navLinks.forEach(function (link) {
-                                          link.addEventListener('click', function () {
-                                                    mainNav.classList.remove('open');
-                                          });
-                                  });
-                            }
-
-                            var yearSpan = document.getElementById('year');
-    if (yearSpan) {
-          yearSpan.textContent = new Date().getFullYear();
-    }
+toggle?.addEventListener('click', () => setMenu(toggle.getAttribute('aria-expanded') !== 'true'));
+nav?.querySelectorAll('a').forEach(link => link.addEventListener('click', () => setMenu(false)));
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape') setMenu(false);
 });
+document.querySelector('#year').textContent = new Date().getFullYear();
