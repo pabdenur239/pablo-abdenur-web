@@ -1,21 +1,13 @@
-# Pablo Abdenur - Sitio institucional
+Pablo Abdenur - Sitio institucional
 
-Sitio institucional de Pablo Abdenur, Concejal de Libertador General San Martin, Jujuy.
+Este repositorio contiene el sitio institucional de Pablo Abdenur, Concejal de Libertador General San Martin, Jujuy. Es una version temporal publicada gratuitamente mediante GitHub Pages, sin costo de hosting, mientras se define la conexion de un dominio propio.
 
-Version temporal publicada con GitHub Pages, sin costo de hosting, mientras se aprueba el contenido definitivo. El dominio propio (pabloabdenur.com.ar) no fue conectado todavia.
+Estructura del proyecto: index.html contiene el contenido principal, css/style.css contiene los estilos, js/app.js contiene el comportamiento del menu movil y el anio dinamico del pie de pagina, y assets/img contiene las fotografias institucionales pendientes de incorporar.
 
-## Estructura del proyecto
+Secciones incluidas: Inicio, Quien soy, Propuestas (ejes de trabajo), Proyectos, Gestion, Actividad, Posiciones publicas y Contacto.
 
-index.html: pagina principal con todas las secciones. css/style.css: estilos generales, con los colores institucionales azul oscuro, blanco y fucsia. js/app.js: menu movil y pequenas interacciones. assets/img/: carpeta para las fotografias oficiales, pendientes de carga.
+Fuentes del contenido: el contenido politico incorporado proviene exclusivamente de la pagina oficial de Facebook de Pablo Abdenur (publicaciones publicas de texto). No se incorporaron fotografias desde Facebook ni de ninguna otra fuente externa.
 
-## Secciones incluidas
+Pendiente: fotografia de portada y fotografias institucionales, resena personal y trayectoria completa, proyectos formalmente presentados ante el Concejo Deliberante, enlaces de WhatsApp e Instagram, y correo electronico de contacto.
 
-Inicio, Quien soy, Propuestas, Proyectos, Gestion, Actividad y Contacto, con boton destacado Escribime.
-
-## Pendiente de completar
-
-Fotografias oficiales. Enlace de WhatsApp. Enlace de Facebook. Enlace de Instagram. Correo electronico de contacto. Contenido definitivo de Propuestas, Proyectos, Gestion, Actividad y Quien soy.
-
-## Publicacion
-
-Este repositorio se publica mediante GitHub Pages desde la rama main. El archivo CNAME para conectar el dominio propio se agregara unicamente cuando se autorice ese paso.
+Publicacion: el sitio se publica unicamente en su direccion temporal de GitHub Pages. El archivo CNAME y la conexion del dominio propio se agregaran unicamente cuando exista autorizacion expresa para hacerlo.
