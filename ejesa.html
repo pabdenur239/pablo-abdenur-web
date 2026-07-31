@@ -29,8 +29,8 @@
     .ejesa-meta .version-chip{border:1px solid rgba(255,255,255,.35);padding:5px 12px;border-radius:2px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#fff}
 
     .ejesa-subnav{position:sticky;top:80px;z-index:90;background:var(--navy-2);border-bottom:1px solid rgba(255,255,255,.14)}
-    .ejesa-subnav-inner{display:flex;gap:8px;padding:12px 0;overflow-x:auto;-webkit-overflow-scrolling:touch}
-    .ejesa-subnav a{white-space:nowrap;flex:none;color:#c5cfdb;font-size:13px;font-weight:700;padding:8px 15px;border:1px solid rgba(255,255,255,.2);border-radius:20px;transition:.2s}
+    .ejesa-subnav-inner{display:flex;gap:6px;padding:9px 0;overflow-x:auto;-webkit-overflow-scrolling:touch}
+    .ejesa-subnav a{white-space:nowrap;flex:none;color:#c5cfdb;font-size:13px;font-weight:700;padding:7px 13px;border:1px solid rgba(255,255,255,.2);border-radius:20px;transition:.2s}
     .ejesa-subnav a:hover,.ejesa-subnav a:focus-visible{background:var(--magenta);border-color:var(--magenta);color:#fff}
 
     .ejesa-block{padding:60px 0}
@@ -44,16 +44,16 @@
     .ejesa-table-wrap{overflow-x:auto;margin-top:28px}
     .ejesa-table{width:100%;min-width:420px;border-collapse:collapse}
     .ejesa-table th{text-align:left;font:800 11px "DM Sans",sans-serif;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);padding:10px 14px;border-bottom:2px solid var(--ink)}
-    .ejesa-table td{padding:14px;border-bottom:1px solid var(--line);vertical-align:middle;font-size:15px}
+    .ejesa-table td{padding:19px 14px;border-bottom:1px solid var(--line);vertical-align:middle;font-size:15px}
     .ejesa-table td:last-child{text-align:right;font-weight:700;white-space:nowrap}
     .ejesa-bar-track{display:block;height:6px;background:var(--line);border-radius:3px;margin-top:8px;max-width:280px;overflow:hidden}
     .ejesa-bar-fill{display:block;height:100%;background:var(--magenta)}
     .ejesa-note{font-size:13px;color:var(--muted);margin-top:18px;font-style:italic}
 
     .ejesa-findings{list-style:none;margin:28px 0 0;padding:0;border-top:1px solid var(--line)}
-    .ejesa-findings li{padding:22px 0;border-bottom:1px solid var(--line);display:flex;gap:18px}
-    .ejesa-findings .num{flex:none;width:26px;font:800 12px "DM Sans",sans-serif;color:var(--magenta);padding-top:2px}
-    .ejesa-findings .body p{margin:0 0 10px;font-size:16px}
+    .ejesa-findings li{padding:30px 0;border-bottom:1px solid var(--line);display:flex;gap:24px}
+    .ejesa-findings .num{flex:none;width:26px;font:800 12px "DM Sans",sans-serif;color:var(--magenta);padding-top:3px}
+    .ejesa-findings .body p{margin:0 0 14px;font-size:16px}
     .ejesa-findings .status{display:inline-block;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--magenta)}
     .ejesa-block.dark .ejesa-findings{border-color:rgba(255,255,255,.16)}
     .ejesa-block.dark .ejesa-findings li{border-color:rgba(255,255,255,.16)}
@@ -73,17 +73,23 @@
     .ejesa-legal p{color:var(--muted);font-size:15px;margin:0}
     .ejesa-legal strong{color:var(--ink)}
 
-    .ejesa-soon{border:1px dashed rgba(255,255,255,.35);padding:32px;margin-top:26px}
+    .ejesa-soon{border:2px dashed rgba(255,255,255,.4);padding:32px;margin-top:26px}
     .ejesa-soon p{color:#c5cfdb;font-size:15px;margin:0 0 14px}
     .ejesa-soon ul{margin:0;padding-left:20px;color:#aeb9c8;font-size:15px;line-height:1.8}
 
     .ejesa-sources{font-size:14px;color:var(--muted)}
     .ejesa-sources ul{margin:14px 0 0;padding-left:20px;line-height:1.8}
 
+    .site-footer{margin-top:22px}
+
     @media(max-width:800px){
-      [id]{scroll-margin-top:120px}
-      .ejesa-hero{padding-top:38px}
+      [id]{scroll-margin-top:122px}
+      .ejesa-hero{padding:29px 0 30px}
+      .ejesa-back{margin-bottom:18px}
+      .ejesa-hero h1{margin:12px 0 12px}
+      .ejesa-meta{margin-top:20px}
       .ejesa-subnav{top:70px}
+      .ejesa-subnav-inner{padding:7px 0}
       .ejesa-block{padding:44px 0}
       .ejesa-block .axis-grid{grid-template-columns:1fr}
       .ejesa-table{min-width:0}
@@ -282,7 +288,7 @@
       <div class="container">
         <p class="section-kicker">Próxima etapa</p>
         <h2>Próximamente</h2>
-        <div class="ejesa-soon" style="border-color:rgba(9,26,51,.3)">
+        <div class="ejesa-soon" style="border-color:rgba(9,26,51,.45);background:rgba(9,26,51,.035)">
           <p style="color:var(--muted)">Estos contenidos todavía no están disponibles. Se incorporarán en una segunda etapa de este módulo:</p>
           <ul style="color:var(--muted)">
             <li>Documentación descargable</li>
