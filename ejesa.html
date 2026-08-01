@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EJESA — Tarifas eléctricas | Pablo Abdenur, Concejal</title>
+  <meta name="description" content="Informe público sobre la evolución de las tarifas eléctricas de EJESA en Libertador General San Martín: hallazgos, cuestiones pendientes de investigación y propuestas legislativas de Pablo Abdenur.">
+  <meta name="theme-color" content="#091a33">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_AR">
+  <meta property="og:title" content="EJESA — Tarifas eléctricas | Pablo Abdenur, Concejal">
+  <meta property="og:description" content="Informe público sobre la evolución de las tarifas eléctricas de EJESA en Libertador General San Martín.">
+  <meta property="og:image" content="https://pabdenur239.github.io/pablo-abdenur-web/assets/img/og-pablo-abdenur.png">
+  <meta property="og:url" content="https://pabdenur239.github.io/pablo-abdenur-web/ejesa.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://pabdenur239.github.io/pablo-abdenur-web/ejesa.html">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    [id]{scroll-margin-top:150px}
+
+    .ejesa-hero{background:var(--navy);color:#fff;padding:48px 0 40px;position:relative}
+    .ejesa-back{display:inline-flex;align-items:center;gap:8px;color:#c5cfdb;font-size:13px;font-weight:600;margin-bottom:24px}
+    .ejesa-back:hover{color:#fff}
+    .ejesa-hero h1{font-size:clamp(38px,5vw,58px);letter-spacing:-.03em;margin:16px 0 16px;font-family:"Manrope",Arial,sans-serif}
+    .ejesa-hero-lead{max-width:640px;color:#c5cfdb;font-size:clamp(16px,1.6vw,19px);margin-bottom:0}
+    .ejesa-meta{display:flex;flex-wrap:wrap;gap:12px 20px;margin-top:26px;align-items:center}
+    .ejesa-meta span{font-size:13px;color:#aeb9c8}
+    .ejesa-meta .version-chip{border:1px solid rgba(255,255,255,.35);padding:5px 12px;border-radius:2px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#fff}
+
+    .ejesa-subnav{position:sticky;top:80px;z-index:90;background:var(--navy-2);border-bottom:1px solid rgba(255,255,255,.14)}
+    .ejesa-subnav-inner{display:flex;gap:6px;padding:9px 0;overflow-x:auto;-webkit-overflow-scrolling:touch}
+    .ejesa-subnav a{white-space:nowrap;flex:none;color:#c5cfdb;font-size:13px;font-weight:700;padding:7px 13px;border:1px solid rgba(255,255,255,.2);border-radius:20px;transition:.2s}
+    .ejesa-subnav a:hover,.ejesa-subnav a:focus-visible{background:var(--magenta);border-color:var(--magenta);color:#fff}
+
+    .ejesa-block{padding:60px 0}
+    .ejesa-block.dark{background:var(--navy);color:#fff}
+    .ejesa-block .section-kicker{margin-bottom:14px}
+    .ejesa-block h2{font-family:"Manrope",Arial,sans-serif;font-size:clamp(26px,3.2vw,36px);letter-spacing:-.02em;margin-bottom:20px}
+    .ejesa-block .lede{max-width:760px;color:var(--muted);font-size:16px;margin-bottom:0}
+    .ejesa-block.dark .lede{color:#c5cfdb}
+    .ejesa-callout{border-left:4px solid var(--magenta);background:var(--white);padding:28px 32px;margin-top:26px;font-size:17px;color:var(--ink);max-width:820px}
+
+    .ejesa-table-wrap{overflow-x:auto;margin-top:28px}
+    .ejesa-table{width:100%;min-width:420px;border-collapse:collapse}
+    .ejesa-table th{text-align:left;font:800 11px "DM Sans",sans-serif;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);padding:10px 14px;border-bottom:2px solid var(--ink)}
+    .ejesa-table td{padding:19px 14px;border-bottom:1px solid var(--line);vertical-align:middle;font-size:15px}
+    .ejesa-table td:last-child{text-align:right;font-weight:700;white-space:nowrap}
+    .ejesa-bar-track{display:block;height:6px;background:var(--line);border-radius:3px;margin-top:8px;max-width:280px;overflow:hidden}
+    .ejesa-bar-fill{display:block;height:100%;background:var(--magenta)}
+    .ejesa-note{font-size:13px;color:var(--muted);margin-top:18px;font-style:italic}
+
+    .ejesa-findings{list-style:none;margin:28px 0 0;padding:0;border-top:1px solid var(--line)}
+    .ejesa-findings li{padding:30px 0;border-bottom:1px solid var(--line);display:flex;gap:24px}
+    .ejesa-findings .num{flex:none;width:26px;font:800 12px "DM Sans",sans-serif;color:var(--magenta);padding-top:3px}
+    .ejesa-findings .body p{margin:0 0 14px;font-size:16px}
+    .ejesa-findings .status{display:inline-block;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--magenta)}
+    .ejesa-block.dark .ejesa-findings{border-color:rgba(255,255,255,.16)}
+    .ejesa-block.dark .ejesa-findings li{border-color:rgba(255,255,255,.16)}
+    .ejesa-block.dark .ejesa-findings .body p{color:#c5cfdb}
+    .ejesa-warning{font-size:14px;color:var(--muted);font-style:italic;max-width:760px;margin:22px 0 0}
+    .ejesa-block.dark .ejesa-warning{color:#aeb9c8}
+
+    .ejesa-block .axis-grid{margin-top:28px}
+    .ejesa-block .axis-card{min-height:0}
+    .ejesa-block .axis-card ul{margin:0;padding-left:18px;color:#bbc5d2;font-size:14px;line-height:1.75}
+    .ejesa-block .axis-card li{margin-bottom:6px}
+
+    .ejesa-checklist{list-style:none;margin:28px 0 0;padding:0;display:grid;gap:12px;max-width:820px}
+    .ejesa-checklist li{background:var(--white);border:1px solid var(--line);border-left:4px solid var(--magenta);padding:16px 22px;font-size:16px}
+
+    .ejesa-legal{border:1px solid var(--line);border-top:3px solid var(--magenta);background:var(--white);padding:32px;margin-top:24px;max-width:820px}
+    .ejesa-legal p{color:var(--muted);font-size:15px;margin:0}
+    .ejesa-legal strong{color:var(--ink)}
+
+    .ejesa-soon{border:2px dashed rgba(255,255,255,.4);padding:32px;margin-top:26px}
+    .ejesa-soon p{color:#c5cfdb;font-size:15px;margin:0 0 14px}
+    .ejesa-soon ul{margin:0;padding-left:20px;color:#aeb9c8;font-size:15px;line-height:1.8}
+
+    .ejesa-sources{font-size:14px;color:var(--muted)}
+    .ejesa-sources ul{margin:14px 0 0;padding-left:20px;line-height:1.8}
+
+    .site-footer{margin-top:22px}
+
+    @media(max-width:800px){
+      [id]{scroll-margin-top:122px}
+      .ejesa-hero{padding:29px 0 30px}
+      .ejesa-back{margin-bottom:18px}
+      .ejesa-hero h1{margin:12px 0 12px}
+      .ejesa-meta{margin-top:20px}
+      .ejesa-subnav{top:70px}
+      .ejesa-subnav-inner{padding:7px 0}
+      .ejesa-block{padding:44px 0}
+      .ejesa-block .axis-grid{grid-template-columns:1fr}
+      .ejesa-table{min-width:0}
+    }
+  </style>
+  <script src="js/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#contenido-ejesa">Saltar al contenido</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html" aria-label="Pablo Abdenur, inicio">
+        <span class="brand-mark" aria-hidden="true">PA</span>
+        <span>Pablo Abdenur<small>Concejal · Libertador</small></span>
+      </a>
+      <button class="nav-toggle" id="navToggle" type="button" aria-controls="mainNav" aria-expanded="false">
+        <span class="sr-only">Abrir menú</span><i></i><i></i><i></i>
+      </button>
+      <nav class="main-nav" id="mainNav" aria-label="Navegación principal">
+        <a href="index.html#quien-soy">Quién soy</a>
+        <a href="index.html#ejes">Ejes de trabajo</a>
+        <a href="ejesa.html">EJESA</a>
+        <a href="actividad-legislativa.html">Concejo</a>
+        <a href="index.html#proyectos">Proyectos</a>
+        <a href="index.html#actividad">Actividad</a>
+        <a href="index.html#contacto" class="nav-cta">Contacto</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenido-ejesa">
+    <section class="ejesa-hero">
+      <div class="container">
+        <a class="ejesa-back" href="index.html">← Volver al inicio</a>
+        <p class="eyebrow">EJESA</p>
+        <h1>Tarifas eléctricas</h1>
+        <p class="ejesa-hero-lead">Esta sección fue creada para que cualquier vecino pueda acceder de manera clara, gratuita y transparente a la información recopilada sobre la evolución de las tarifas eléctricas de EJESA, las actuaciones realizadas desde mi función como concejal y la documentación pública relacionada con este tema.</p>
+        <div class="ejesa-meta">
+          <span>Última actualización: [fecha al momento de publicar]</span>
+          <span class="version-chip">Versión pública 1.0</span>
+        </div>
+      </div>
+    </section>
+
+    <nav class="ejesa-subnav" aria-label="Navegación dentro de esta página">
+      <div class="container ejesa-subnav-inner">
+        <a href="#resumen">Resumen</a>
+        <a href="#factura">Factura</a>
+        <a href="#hallazgos">Hallazgos</a>
+        <a href="#investigacion">Investigación</a>
+        <a href="#pedidos">Pedidos de información</a>
+        <a href="#propuestas">Propuestas</a>
+        <a href="#actualizaciones">Actualizaciones</a>
+      </div>
+    </nav>
+
+    <section class="ejesa-block" id="resumen">
+      <div class="container">
+        <p class="section-kicker">Resumen ejecutivo</p>
+        <h2>Qué se analizó</h2>
+        <p class="lede">Como integrante de la Comisión de Hacienda del Concejo Deliberante, impulsé un análisis sobre la evolución de las tarifas eléctricas de EJESA en Libertador General San Martín entre 2023 y 2026, revisando el marco legal aplicable (normativa nacional, provincial y el contrato de concesión), la composición de la factura y la información pública disponible sobre el proceso de fijación de tarifas.</p>
+        <p class="ejesa-callout">Este resumen presenta los principales resultados de ese trabajo. El <strong>informe técnico ampliado se encuentra en revisión</strong> y será publicado en una etapa posterior, junto con la documentación que lo respalda.</p>
+      </div>
+    </section>
+
+    <section class="ejesa-block" id="factura">
+      <div class="container">
+        <p class="section-kicker">Composición de la factura</p>
+        <h2>Cómo se compone la factura</h2>
+        <p class="lede">Sobre el total de una factura eléctrica tipo, la distribución aproximada por concepto es la siguiente (porcentajes agregados, sin datos de consumo ni de titularidad individual):</p>
+        <div class="ejesa-table-wrap">
+          <table class="ejesa-table">
+            <thead>
+              <tr><th>Concepto</th><th>Participación aproximada</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Consumo de energía<span class="ejesa-bar-track" aria-hidden="true"><span class="ejesa-bar-fill" style="width:43%"></span></span></td><td>~43%</td></tr>
+              <tr><td>Uso de red (mantenimiento de la infraestructura)<span class="ejesa-bar-track" aria-hidden="true"><span class="ejesa-bar-fill" style="width:28%"></span></span></td><td>~28%</td></tr>
+              <tr><td>IVA<span class="ejesa-bar-track" aria-hidden="true"><span class="ejesa-bar-fill" style="width:15%"></span></span></td><td>~15%</td></tr>
+              <tr><td>Cargo fijo<span class="ejesa-bar-track" aria-hidden="true"><span class="ejesa-bar-fill" style="width:9%"></span></span></td><td>~9%</td></tr>
+              <tr><td>FOPEJ (fondo provincial de obras eléctricas)<span class="ejesa-bar-track" aria-hidden="true"><span class="ejesa-bar-fill" style="width:5%"></span></span></td><td>~5%</td></tr>
+              <tr><td>Alumbrado público (tasa municipal)<span class="ejesa-bar-track" aria-hidden="true"><span class="ejesa-bar-fill" style="width:4%"></span></span></td><td>~4%</td></tr>
+              <tr><td>Contribución única provincial/municipal<span class="ejesa-bar-track" aria-hidden="true"><span class="ejesa-bar-fill" style="width:4%"></span></span></td><td>~4%</td></tr>
+              <tr><td>Tasa de fiscalización SUSEPU<span class="ejesa-bar-track" aria-hidden="true"><span class="ejesa-bar-fill" style="width:1%"></span></span></td><td>~1%</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="ejesa-note">Los porcentajes son aproximados y pueden variar según la categoría del usuario, el nivel de consumo, los subsidios aplicables y las actualizaciones tarifarias vigentes.</p>
+      </div>
+    </section>
+
+    <section class="ejesa-block" id="hallazgos">
+      <div class="container">
+        <p class="section-kicker">Hechos comprobados</p>
+        <h2>Principales hallazgos</h2>
+        <ul class="ejesa-findings">
+          <li><span class="num">01</span><div class="body"><p>El costo técnico por kWh (antes de impuestos) subió de forma sostenida entre 2023 y 2026, con incrementos particularmente marcados en el componente que fija la Provincia (Uso de Red y Cargo Fijo), por encima del componente que fija la Nación (costo de la energía).</p><span class="status">Comprobado</span></div></li>
+          <li><span class="num">02</span><div class="body"><p>En febrero de 2024, la SUSEPU (el ente regulador provincial) aplicó un aumento del 73% en ese componente provincial sin convocar una nueva audiencia pública. Esa resolución fue impugnada judicialmente por dos organizaciones de defensa del consumidor (CODELCO y PROCONSUMER).</p><span class="status">Comprobado</span></div></li>
+          <li><span class="num">03</span><div class="body"><p>Un fallo judicial inicial resultó favorable a los usuarios; esa decisión fue luego apelada y el proceso continúa en trámite, sin resolución firme hasta la fecha.</p><span class="status">Comprobado</span></div></li>
+          <li><span class="num">04</span><div class="body"><p>Según declaraciones públicas de la Defensoría del Pueblo de la Provincia de Jujuy, el incremento aplicado en febrero de 2024 fue calificado como "exorbitante, oneroso, desproporcionado e irrazonable".</p><span class="status">Comprobado</span></div></li>
+          <li><span class="num">05</span><div class="body"><p>El cargo de alumbrado público —el único componente de jurisdicción directa municipal— también registró un incremento significativo durante el período analizado.</p><span class="status">Comprobado</span></div></li>
+          <li><span class="num">06</span><div class="body"><p>La factura no distingue con claridad, para el usuario, qué parte del aumento corresponde a decisiones nacionales y cuál a decisiones provinciales.</p><span class="status">Comprobado</span></div></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="ejesa-block dark" id="investigacion">
+      <div class="container">
+        <p class="section-kicker">Cuestiones pendientes</p>
+        <h2>Cuestiones pendientes de investigación</h2>
+        <p class="ejesa-warning">Ningún punto de este bloque debe leerse como un hecho comprobado. Son cuestiones abiertas que requieren más información, documentación oficial o revisión legal antes de derivar conclusiones.</p>
+        <ul class="ejesa-findings">
+          <li><span class="num">01</span><div class="body"><p>Si los ajustes aplicados durante 2024 y 2025 debieron someterse a una nueva audiencia pública, más allá de la realizada en 2022, conforme a la legislación provincial vigente.</p><span class="status">Pendiente de verificación</span></div></li>
+          <li><span class="num">02</span><div class="body"><p>Se identificaron posibles situaciones que requieren mayor transparencia y verificación respecto de los vínculos entre autoridades del sector energético y la empresa concesionaria. Este punto forma parte de la documentación reunida y de los pedidos de información que corresponde formular; no se afirma la existencia de un conflicto de interés como hecho comprobado.</p><span class="status">Pendiente de verificación</span></div></li>
+          <li><span class="num">03</span><div class="body"><p>Si existe superposición entre distintos cargos que financian obras de infraestructura eléctrica, lo que podría implicar un cobro duplicado por el mismo concepto.</p><span class="status">Pendiente de verificación</span></div></li>
+          <li><span class="num">04</span><div class="body"><p>Si el incremento del cargo de alumbrado público cuenta con respaldo en una ordenanza municipal vigente y con un acto deliberativo específico del Concejo.</p><span class="status">Pendiente de verificación</span></div></li>
+          <li><span class="num">05</span><div class="body"><p>Si la recaudación de la tasa de fiscalización provincial se rinde públicamente y con el detalle suficiente.</p><span class="status">Pendiente de verificación</span></div></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="ejesa-block" id="pedidos">
+      <div class="container">
+        <p class="section-kicker">Pedidos de información</p>
+        <h2>Qué explicaciones vamos a solicitar</h2>
+        <div class="axis-grid">
+          <article class="axis-card">
+            <span>01</span>
+            <h3>A EJESA</h3>
+            <ul>
+              <li>Estructura de costos que respalda los aumentos aplicados.</li>
+              <li>Motivo por el cual la factura combina dos sistemas de subsidio distintos sin explicación al usuario.</li>
+              <li>Detalle de las obras financiadas con el fondo provincial de energía en nuestro municipio.</li>
+            </ul>
+          </article>
+          <article class="axis-card">
+            <span>02</span>
+            <h3>A la SUSEPU</h3>
+            <ul>
+              <li>Marco legal utilizado para aplicar el aumento de 2024 sin nueva audiencia pública.</li>
+              <li>Estado actualizado del proceso judicial en curso.</li>
+              <li>Informe sobre el destino de los fondos recaudados por su tasa de fiscalización.</li>
+            </ul>
+          </article>
+          <article class="axis-card">
+            <span>03</span>
+            <h3>A la Provincia</h3>
+            <ul>
+              <li>Información sobre el proceso de cambio de titularidad de la empresa concesionaria y su impacto en el contrato de concesión.</li>
+            </ul>
+          </article>
+          <article class="axis-card">
+            <span>04</span>
+            <h3>Al Departamento Ejecutivo Municipal</h3>
+            <ul>
+              <li>Ordenanza vigente que respalda el monto actual del alumbrado público.</li>
+              <li>Rendición de cuentas de lo recaudado por ese concepto y detalle de las obras ejecutadas.</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="ejesa-block" id="propuestas">
+      <div class="container">
+        <p class="section-kicker">Propuestas legislativas</p>
+        <h2>Propuestas legislativas</h2>
+        <ul class="ejesa-checklist">
+          <li>Presentar formalmente un pedido de informes ante el Concejo Deliberante sobre el cargo de alumbrado público, por ser el único componente bajo jurisdicción municipal directa.</li>
+          <li>Articular con otros legisladores un pedido de informes ante la Legislatura provincial sobre el funcionamiento de la SUSEPU y el proceso de fijación de tarifas.</li>
+          <li>Impulsar un proyecto de declaración del Concejo solicitando explicaciones formales a EJESA y al Ejecutivo municipal.</li>
+          <li>Fortalecer y ampliar la Tarifa Social para los usuarios de menores ingresos.</li>
+          <li>Dar seguimiento público al estado del proceso judicial en curso y mantener informados a los vecinos sobre su evolución.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="ejesa-block">
+      <div class="container">
+        <div class="ejesa-legal">
+          <p class="section-kicker">Aclaración legal</p>
+          <p>Este análisis fue elaborado como herramienta de trabajo legislativo y de información pública. <strong>No reemplaza un pronunciamiento judicial ni constituye, por sí mismo, una declaración de ilegalidad de las tarifas vigentes.</strong> Las cuestiones señaladas como pendientes de verificación requieren documentación oficial adicional, la respuesta de los organismos consultados y, en su caso, una revisión legal específica antes de derivar conclusiones definitivas.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="ejesa-block dark">
+      <div class="container">
+        <p class="section-kicker">Cierre institucional</p>
+        <p class="lede" style="max-width:820px;font-size:18px;color:#e8edf4">El objetivo de este trabajo no es generar confrontación, sino contribuir a que las tarifas eléctricas sean transparentes, comprensibles y compatibles con los derechos de los usuarios. La información pública de calidad es una herramienta fundamental para que cada vecino pueda comprender cómo se compone su factura y exigir las explicaciones que correspondan.</p>
+        <p class="lede" style="margin-top:18px">Esta información será actualizada a medida que se incorporen nuevos documentos públicos, respuestas oficiales, resoluciones administrativas o decisiones judiciales relacionadas con este tema.</p>
+      </div>
+    </section>
+
+    <section class="ejesa-block" id="actualizaciones">
+      <div class="container">
+        <p class="section-kicker">Próxima etapa</p>
+        <h2>Próximamente</h2>
+        <div class="ejesa-soon" style="border-color:rgba(9,26,51,.45);background:rgba(9,26,51,.035)">
+          <p style="color:var(--muted)">Estos contenidos todavía no están disponibles. Se incorporarán en una segunda etapa de este módulo:</p>
+          <ul style="color:var(--muted)">
+            <li>Documentación descargable</li>
+            <li>Respuestas oficiales recibidas</li>
+            <li>Cronología legislativa</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="ejesa-block">
+      <div class="container ejesa-sources">
+        <p class="section-kicker">Fuentes documentales</p>
+        <ul>
+          <li>Análisis técnico "Incrementos tarifarios eléctricos EJESA — Jujuy (2023–2026)", elaborado como documento de asesoría legislativa para la Comisión de Hacienda (junio de 2026).</li>
+          <li>Comparativo de composición de factura eléctrica 2025-2026, elaborado a partir de boletas domiciliarias, presentado exclusivamente en porcentajes agregados y sin datos identificatorios.</li>
+          <li>Normativa pública citada: Leyes provinciales 4.888, 4.937, 5.317 y 6.060; Resoluciones SUSEPU N° 182/2022 y 60/2024; Ley nacional 24.065; Decreto nacional 943/2025; Contrato de Concesión de EJESA.</li>
+          <li>Declaraciones públicas de la Defensoría del Pueblo de la Provincia de Jujuy.</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span class="footer-brand">PA</span>
+      <p>© <span id="year"></span> Pablo Abdenur</p>
+      <a href="#contenido-ejesa">Volver arriba ↑</a>
+    </div>
+  </footer>
+</body>
+</html>
