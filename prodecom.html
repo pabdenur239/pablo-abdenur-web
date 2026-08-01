@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PRODECOM | Pablo Abdenur, Concejal</title>
+  <meta name="description" content="PRODECOM: Programa Municipal de Desarrollo Comercial, Emprendedor y Productivo. Proyecto legislativo de Pablo Abdenur, concejal de Libertador General San Martín.">
+  <meta name="theme-color" content="#091a33">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_AR">
+  <meta property="og:title" content="PRODECOM | Pablo Abdenur, Concejal">
+  <meta property="og:description" content="Programa Municipal de Desarrollo Comercial, Emprendedor y Productivo: proyecto legislativo en elaboración.">
+  <meta property="og:image" content="https://pabdenur239.github.io/pablo-abdenur-web/assets/img/og-pablo-abdenur.png">
+  <meta property="og:url" content="https://pabdenur239.github.io/pablo-abdenur-web/prodecom.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://pabdenur239.github.io/pablo-abdenur-web/prodecom.html">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    [id]{scroll-margin-top:150px}
+
+    .prod-hero{background:var(--navy);color:#fff;padding:48px 0 40px;position:relative}
+    .prod-back{display:inline-flex;align-items:center;gap:8px;color:#c5cfdb;font-size:13px;font-weight:600;margin-bottom:24px}
+    .prod-back:hover{color:#fff}
+    .prod-hero h1{font-size:clamp(32px,4.2vw,50px);letter-spacing:-.02em;margin:16px 0 16px;font-family:"Manrope",Arial,sans-serif}
+    .prod-hero-lead{max-width:660px;color:#c5cfdb;font-size:clamp(16px,1.6vw,19px);margin-bottom:0}
+    .prod-meta{display:flex;flex-wrap:wrap;gap:12px 20px;margin-top:26px;align-items:center}
+    .prod-meta span{font-size:13px;color:#aeb9c8}
+    .prod-meta .version-chip{border:1px solid rgba(255,255,255,.35);padding:5px 12px;border-radius:2px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#fff}
+
+    .prod-timeline-wrap{background:var(--navy-2);border-top:1px solid rgba(255,255,255,.12);border-bottom:1px solid rgba(255,255,255,.12);padding:28px 0}
+    .prod-timeline{display:flex;justify-content:space-between;gap:8px;max-width:900px;margin:0 auto;list-style:none;padding:0}
+    .prod-step{flex:1;display:flex;flex-direction:column;align-items:center;text-align:center;position:relative}
+    .prod-step::before{content:"";position:absolute;top:9px;left:-50%;width:100%;height:2px;background:rgba(255,255,255,.2);z-index:0}
+    .prod-step:first-child::before{display:none}
+    .prod-dot{width:20px;height:20px;border-radius:50%;border:2px solid rgba(255,255,255,.35);background:var(--navy-2);z-index:1;margin-bottom:10px}
+    .prod-step.done .prod-dot{background:var(--navy);border-color:#fff}
+    .prod-step.current .prod-dot{background:var(--magenta);border-color:var(--magenta)}
+    .prod-step span{font-size:12px;color:#aeb9c8;font-weight:600}
+    .prod-step.current span{color:#fff;font-weight:800}
+
+    .prod-subnav{position:sticky;top:80px;z-index:90;background:var(--navy-2);border-bottom:1px solid rgba(255,255,255,.14)}
+    .prod-subnav-inner{display:flex;gap:6px;padding:9px 0;overflow-x:auto;-webkit-overflow-scrolling:touch}
+    .prod-subnav a{white-space:nowrap;flex:none;color:#c5cfdb;font-size:13px;font-weight:700;padding:7px 13px;border:1px solid rgba(255,255,255,.2);border-radius:20px;transition:.2s}
+    .prod-subnav a:hover,.prod-subnav a:focus-visible{background:var(--magenta);border-color:var(--magenta);color:#fff}
+
+    .prod-block{padding:60px 0}
+    .prod-block .section-kicker{margin-bottom:14px}
+    .prod-block h2{font-family:"Manrope",Arial,sans-serif;font-size:clamp(26px,3.2vw,36px);letter-spacing:-.02em;margin-bottom:20px}
+    .prod-block .lede{max-width:760px;color:var(--muted);font-size:16px;margin-bottom:0}
+    .prod-callout{border-left:4px solid var(--magenta);background:var(--white);padding:24px 28px;margin-top:24px;font-size:16px;color:var(--ink);max-width:780px}
+
+    .prod-reasons{list-style:none;margin:26px 0 0;padding:0;border-top:1px solid var(--line);max-width:820px}
+    .prod-reasons li{padding:18px 0;border-bottom:1px solid var(--line);display:flex;gap:16px;font-size:16px}
+    .prod-reasons .num{flex:none;width:24px;font:800 12px "DM Sans",sans-serif;color:var(--magenta)}
+
+    .prod-status{list-style:none;margin:26px 0 0;padding:0;display:grid;gap:14px;max-width:860px}
+    .prod-status li{background:var(--white);border:1px solid var(--line);border-left:4px solid var(--magenta);padding:20px 24px}
+    .prod-status b{display:block;font:700 15px "Manrope",sans-serif;margin-bottom:6px}
+    .prod-status span{color:var(--muted);font-size:15px}
+
+    .prod-eje1{background:var(--magenta);color:#fff;padding:36px;margin-top:26px;max-width:900px}
+    .prod-eje1 .status-tag{display:inline-block;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;background:#fff;color:var(--magenta);padding:5px 12px;border-radius:20px;margin-bottom:16px}
+    .prod-eje1 h3{font-size:22px;margin:0 0 10px;font-family:"Manrope",Arial,sans-serif}
+    .prod-eje1 p{margin:0;font-size:15px;color:#ffe0f0}
+
+    .prod-otherejes{list-style:none;margin:20px 0 0;padding:0;max-width:900px}
+    .prod-otherejes li{display:flex;align-items:baseline;gap:14px;padding:16px 0;border-bottom:1px solid var(--line);flex-wrap:wrap}
+    .prod-otherejes b{font:700 15px "Manrope",sans-serif;flex:none}
+    .prod-otherejes span.desc{color:var(--muted);font-size:14px;flex:1;min-width:200px}
+    .prod-studytag{flex:none;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;border:1px solid var(--muted);color:var(--muted);padding:4px 10px;border-radius:20px}
+
+    .prod-list{list-style:none;margin:20px 0 0;padding:0;max-width:780px}
+    .prod-list li{padding:12px 0;border-bottom:1px solid var(--line);font-size:15px;color:var(--ink)}
+
+    .prod-benefits{margin-top:32px;padding-top:28px;border-top:1px solid var(--line)}
+    .prod-benefits h4{font:700 17px "Manrope",sans-serif;margin:0 0 8px}
+    .prod-benefits .disclaimer{font-style:italic;color:var(--muted);font-size:14px;margin-bottom:16px}
+
+    .prod-scope{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:28px;border:1px solid var(--line);max-width:1000px}
+    .prod-scope>div{padding:30px}
+    .prod-scope .in{background:var(--white)}
+    .prod-scope .out{background:var(--navy);color:#fff}
+    .prod-scope h4{font:700 15px "Manrope",sans-serif;margin:0 0 16px;text-transform:uppercase;letter-spacing:.04em;font-size:13px}
+    .prod-scope .in h4{color:var(--magenta)}
+    .prod-scope .out h4{color:#ff6fb8}
+    .prod-scope ul{list-style:none;margin:0;padding:0}
+    .prod-scope li{padding:10px 0;border-top:1px solid var(--line);font-size:14px}
+    .prod-scope .out li{border-top:1px solid rgba(255,255,255,.15);color:#c5cfdb}
+    .prod-scope li:first-child{border-top:0}
+
+    .prod-soon{border:2px dashed rgba(9,26,51,.45);background:rgba(9,26,51,.035);padding:32px;margin-top:26px}
+    .prod-soon p{color:var(--muted);font-size:15px;margin:0 0 14px}
+    .prod-soon ul{margin:0;padding-left:20px;color:var(--muted);font-size:15px;line-height:1.8}
+
+    .prod-sources{font-size:14px;color:var(--muted)}
+    .prod-sources ul{margin:14px 0 0;padding-left:20px;line-height:1.8}
+
+    .site-footer{margin-top:22px}
+
+    @media(max-width:800px){
+      [id]{scroll-margin-top:122px}
+      .prod-hero{padding:29px 0 30px}
+      .prod-back{margin-bottom:18px}
+      .prod-hero h1{margin:12px 0 12px}
+      .prod-meta{margin-top:20px}
+      .prod-timeline{flex-direction:column;align-items:flex-start;gap:20px;max-width:100%}
+      .prod-step{flex-direction:row;text-align:left;gap:12px;align-items:center}
+      .prod-step::before{display:none}
+      .prod-dot{margin-bottom:0}
+      .prod-subnav{top:70px}
+      .prod-subnav-inner{padding:7px 0}
+      .prod-block{padding:44px 0}
+      .prod-otherejes li{flex-direction:column;align-items:flex-start;gap:6px}
+      .prod-scope{grid-template-columns:1fr}
+    }
+  </style>
+  <script src="js/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#contenido-prod">Saltar al contenido</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html" aria-label="Pablo Abdenur, inicio">
+        <span class="brand-mark" aria-hidden="true">PA</span>
+        <span>Pablo Abdenur<small>Concejal · Libertador</small></span>
+      </a>
+      <button class="nav-toggle" id="navToggle" type="button" aria-controls="mainNav" aria-expanded="false">
+        <span class="sr-only">Abrir menú</span><i></i><i></i><i></i>
+      </button>
+      <nav class="main-nav" id="mainNav" aria-label="Navegación principal">
+        <a href="index.html#quien-soy">Quién soy</a>
+        <a href="index.html#ejes">Ejes de trabajo</a>
+        <a href="ejesa.html">EJESA</a>
+        <a href="actividad-legislativa.html">Concejo</a>
+        <a href="index.html#proyectos">Proyectos</a>
+        <a href="index.html#actividad">Actividad</a>
+        <a href="index.html#contacto" class="nav-cta">Contacto</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenido-prod">
+    <section class="prod-hero">
+      <div class="container">
+        <a class="prod-back" href="index.html">← Volver al inicio</a>
+        <p class="eyebrow">PRODECOM</p>
+        <h1>Programa Municipal de Desarrollo Comercial, Emprendedor y Productivo</h1>
+        <p class="prod-hero-lead">Esta sección presenta PRODECOM, un proyecto legislativo que impulso para modernizar la relación entre el municipio y los comerciantes, emprendedores y productores locales. Es una propuesta en elaboración: parte de su contenido ya está redactada para su presentación formal, y otra parte todavía está en etapa de diseño.</p>
+        <div class="prod-meta">
+          <span>Última actualización: [fecha al momento de publicar]</span>
+          <span class="version-chip">Proyecto legislativo — en elaboración</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="prod-timeline-wrap">
+      <div class="container">
+        <ol class="prod-timeline">
+          <li class="prod-step done"><span class="prod-dot" aria-hidden="true"></span><span>Diagnóstico</span></li>
+          <li class="prod-step current"><span class="prod-dot" aria-hidden="true"></span><span>Redacción</span></li>
+          <li class="prod-step"><span class="prod-dot" aria-hidden="true"></span><span>Presentación</span></li>
+          <li class="prod-step"><span class="prod-dot" aria-hidden="true"></span><span>Tratamiento</span></li>
+          <li class="prod-step"><span class="prod-dot" aria-hidden="true"></span><span>Aprobación</span></li>
+          <li class="prod-step"><span class="prod-dot" aria-hidden="true"></span><span>Implementación</span></li>
+        </ol>
+      </div>
+    </div>
+
+    <nav class="prod-subnav" aria-label="Navegación dentro de esta página">
+      <div class="container prod-subnav-inner">
+        <a href="#que-es">Qué es</a>
+        <a href="#estado">Estado</a>
+        <a href="#ejes">Ejes</a>
+        <a href="#habilitacion">Habilitación</a>
+        <a href="#alcance">Alcance</a>
+        <a href="#actualizaciones">Actualizaciones</a>
+      </div>
+    </nav>
+
+    <section class="prod-block" id="que-es">
+      <div class="container">
+        <p class="section-kicker">Qué es PRODECOM</p>
+        <h2>Qué es PRODECOM</h2>
+        <p class="lede">PRODECOM es un programa municipal —no una Dirección— orientado a simplificar los trámites de habilitación comercial, modernizar la gestión municipal vinculada al sector productivo, acompañar a comerciantes y emprendedores, desarrollar capacidades laborales y fomentar el empleo privado formal.</p>
+        <p class="prod-callout">Todavía no es una política vigente: es un proyecto de ordenanza que impulso desde el Concejo Deliberante, pendiente de presentación y tratamiento formal.</p>
+      </div>
+    </section>
+
+    <section class="prod-block" id="por-que">
+      <div class="container">
+        <p class="section-kicker">Fundamentos</p>
+        <h2>¿Por qué impulsar este proyecto?</h2>
+        <ul class="prod-reasons">
+          <li><span class="num">01</span>Los trámites de habilitación comercial hoy están dispersos entre distintas áreas municipales, lo que genera demoras e incertidumbre para quien quiere abrir un comercio.</li>
+          <li><span class="num">02</span>La falta de un canal único y de digitalización dificulta el control de gestión y genera costos innecesarios para los vecinos.</li>
+          <li><span class="num">03</span>El municipio no cuenta hoy con un programa articulado de acompañamiento a comerciantes, emprendedores y trabajadores de oficio.</li>
+          <li><span class="num">04</span>La capacitación laboral y el acompañamiento productivo son herramientas de alto impacto para la formalización y el empleo local.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="prod-block" id="estado">
+      <div class="container">
+        <p class="section-kicker">Estado actual</p>
+        <h2>Estado actual del proyecto</h2>
+        <ul class="prod-status">
+          <li><b>Presentado / redactado en su totalidad</b><span>La ordenanza marco de PRODECOM (36 artículos), lista para su presentación formal ante la Comisión de Legislación.</span></li>
+          <li><b>En elaboración</b><span>El Eje 1 — Régimen de Habilitación Comercial Simplificada, con desarrollo técnico avanzado pero todavía no cerrado.</span></li>
+          <li><b>Ideas estratégicas futuras, sin desarrollo normativo</b><span>Los Ejes 2 a 6, presentados como líneas de trabajo a futuro, no como proyectos redactados.</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="prod-block" id="ejes">
+      <div class="container">
+        <p class="section-kicker">Ejes estratégicos</p>
+        <h2>Los seis ejes estratégicos</h2>
+        <p class="lede">Actualmente, solo el Eje 1 cuenta con un proyecto de ordenanza redactado. Los Ejes 2 a 6 son líneas de trabajo que todavía no tienen desarrollo normativo ni fecha de presentación.</p>
+        <div class="prod-eje1">
+          <span class="status-tag">Desarrollo avanzado</span>
+          <h3>Eje 1 — Simplificación administrativa y modernización de habilitaciones comerciales</h3>
+          <p>Único eje con proyecto de ordenanza redactado: el Régimen de Habilitación Comercial Simplificada, detallado en la sección siguiente.</p>
+        </div>
+        <p class="lede" style="margin-top:32px;font-weight:700;color:var(--ink)">Líneas estratégicas en desarrollo</p>
+        <ul class="prod-otherejes">
+          <li><b>Eje 2 — Fomento crediticio y acompañamiento a emprendedores</b><span class="desc">Microcrédito y asistencia técnica para emprendedores.</span><span class="prod-studytag">En estudio</span></li>
+          <li><b>Eje 3 — Diversificación productiva y agregado de valor</b><span class="desc">Apoyo a cadenas productivas alternativas.</span><span class="prod-studytag">En estudio</span></li>
+          <li><b>Eje 4 — Turismo y patrimonio natural</b><span class="desc">Promoción del turismo de naturaleza local.</span><span class="prod-studytag">En estudio</span></li>
+          <li><b>Eje 5 — Formación técnica y empleo joven</b><span class="desc">Articulación con instituciones educativas.</span><span class="prod-studytag">En estudio</span></li>
+          <li><b>Eje 6 — Articulación institucional con la Provincia</b><span class="desc">Coordinación de programas provinciales y municipales.</span><span class="prod-studytag">En estudio</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="prod-block" id="habilitacion">
+      <div class="container">
+        <p class="section-kicker">Eje 1 — Desarrollo avanzado</p>
+        <h2>Habilitación Comercial Simplificada</h2>
+        <p class="lede">Este eje propone reemplazar el control previo tradicional por un sistema de declaración jurada con verificación posterior, para comercios de bajo riesgo.</p>
+        <p class="lede" style="margin-top:24px;font-weight:700;color:var(--ink)">Elementos ya diseñados</p>
+        <ul class="prod-list">
+          <li>Clasificación de actividades por nivel de riesgo y superficie.</li>
+          <li>Trámite digitalizado de forma progresiva.</li>
+          <li>Plazo cierto para el control posterior a la habilitación.</li>
+          <li>Procedimiento de garantías antes de aplicar sanciones.</li>
+          <li>Bonificación tributaria transitoria para quienes se habiliten bajo este régimen.</li>
+        </ul>
+        <p class="prod-callout">Este componente tiene un desarrollo avanzado pero todavía no es una versión definitiva: partes del texto dependen de información que aún no fue confirmada (como la autoridad municipal de aplicación exacta), y de la intervención de un área técnica municipal para terminar de definir la clasificación de riesgo por actividad.</p>
+
+        <div class="prod-benefits">
+          <h4>Beneficios esperados</h4>
+          <p class="disclaimer">Estos son los objetivos que persigue el proyecto, todavía no resultados obtenidos.</p>
+          <ul class="prod-list">
+            <li>Reducir los tiempos de espera para obtener una habilitación comercial.</li>
+            <li>Concentrar el trámite en un solo canal, presencial y progresivamente digital.</li>
+            <li>Dar mayor previsibilidad a quien inicia una actividad comercial de bajo riesgo.</li>
+            <li>Incorporar una bonificación tributaria transitoria para quienes se habiliten bajo este régimen.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="prod-block" id="alcance">
+      <div class="container">
+        <p class="section-kicker">Alcance de esta publicación</p>
+        <h2>Alcance de esta publicación</h2>
+        <div class="prod-scope">
+          <div class="in">
+            <h4>Qué incluye este módulo</h4>
+            <ul>
+              <li>La explicación institucional de qué es PRODECOM y por qué se propone.</li>
+              <li>El estado real de avance de cada componente del proyecto.</li>
+              <li>El detalle del eje con mayor desarrollo (Habilitación Comercial Simplificada).</li>
+              <li>Las líneas estratégicas futuras, identificadas como ideas en estudio.</li>
+            </ul>
+          </div>
+          <div class="out">
+            <h4>Qué todavía no forma parte de esta publicación</h4>
+            <ul>
+              <li>El texto articulado completo de las ordenanzas, hasta su presentación formal.</li>
+              <li>Cifras de diagnóstico socioeconómico sin fuente oficial verificada.</li>
+              <li>Afirmaciones sobre la competencia legal exacta del Concejo, hasta confirmar el artículo correspondiente de la Carta Orgánica Municipal.</li>
+              <li>Material de estrategia política interna.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="prod-block" id="actualizaciones">
+      <div class="container">
+        <p class="section-kicker">Próxima etapa</p>
+        <h2>Próximamente</h2>
+        <div class="prod-soon">
+          <p>Estos contenidos todavía no están disponibles. Se incorporarán en una etapa posterior:</p>
+          <ul>
+            <li>Texto completo de la ordenanza PRODECOM, una vez presentada formalmente.</li>
+            <li>Desarrollo normativo de los Ejes 2 a 6.</li>
+            <li>Confirmación del fundamento legal exacto.</li>
+            <li>Documentación de respaldo apta para publicación.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="prod-block">
+      <div class="container prod-sources">
+        <p class="section-kicker">Fuentes documentales</p>
+        <ul>
+          <li>Proyecto de Ordenanza PRODECOM — Versión Definitiva.</li>
+          <li>Documento complementario de diagnóstico y ejes estratégicos.</li>
+          <li>Proyecto técnico de Régimen de Habilitación Comercial Simplificada (Eje 1).</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span class="footer-brand">PA</span>
+      <p>© <span id="year"></span> Pablo Abdenur</p>
+      <a href="#contenido-prod">Volver arriba ↑</a>
+    </div>
+  </footer>
+</body>
+</html>
