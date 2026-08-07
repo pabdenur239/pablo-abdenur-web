@@ -33,6 +33,8 @@
     .prod-step{flex:1;display:flex;flex-direction:column;align-items:center;text-align:center;position:relative}
     .prod-step::before{content:"";position:absolute;top:9px;left:-50%;width:100%;height:2px;background:rgba(255,255,255,.2);z-index:0}
     .prod-step:first-child::before{display:none}
+    .prod-step a{display:flex;flex-direction:column;align-items:center;width:100%;text-decoration:none;color:inherit;cursor:pointer}
+    .prod-step a:focus-visible{outline:2px solid var(--magenta);outline-offset:4px;border-radius:2px}
     .prod-dot{width:20px;height:20px;border-radius:50%;border:2px solid rgba(255,255,255,.35);background:var(--navy-2);z-index:1;margin-bottom:10px}
     .prod-step.done .prod-dot{background:var(--navy);border-color:#fff}
     .prod-step.current .prod-dot{background:var(--magenta);border-color:var(--magenta)}
@@ -158,12 +160,12 @@
     <div class="prod-timeline-wrap">
       <div class="container">
         <ol class="prod-timeline">
-          <li class="prod-step done"><span class="prod-dot" aria-hidden="true"></span><span>Diagnóstico</span></li>
-          <li class="prod-step current"><span class="prod-dot" aria-hidden="true"></span><span>Redacción</span></li>
-          <li class="prod-step"><span class="prod-dot" aria-hidden="true"></span><span>Presentación</span></li>
-          <li class="prod-step"><span class="prod-dot" aria-hidden="true"></span><span>Tratamiento</span></li>
-          <li class="prod-step"><span class="prod-dot" aria-hidden="true"></span><span>Aprobación</span></li>
-          <li class="prod-step"><span class="prod-dot" aria-hidden="true"></span><span>Implementación</span></li>
+          <li class="prod-step done"><a href="#por-que"><span class="prod-dot" aria-hidden="true"></span><span>Diagnóstico</span></a></li>
+          <li class="prod-step current"><a href="#estado"><span class="prod-dot" aria-hidden="true"></span><span>Redacción</span></a></li>
+          <li class="prod-step"><a href="#actualizaciones"><span class="prod-dot" aria-hidden="true"></span><span>Presentación</span></a></li>
+          <li class="prod-step"><a href="#actualizaciones"><span class="prod-dot" aria-hidden="true"></span><span>Tratamiento</span></a></li>
+          <li class="prod-step"><a href="#actualizaciones"><span class="prod-dot" aria-hidden="true"></span><span>Aprobación</span></a></li>
+          <li class="prod-step"><a href="#actualizaciones"><span class="prod-dot" aria-hidden="true"></span><span>Implementación</span></a></li>
         </ol>
       </div>
     </div>
