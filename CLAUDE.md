@@ -134,12 +134,11 @@ Nunca:
 
 ## Dominios
 
-Existen:
+Los dominios pabloabdenur.com.ar y www.pabloabdenur.com.ar forman parte de la publicación oficial del proyecto.
 
-- pabloabdenur.com.ar
-- pabloabdenur.ar
+Se autoriza configurar GitHub Pages, Cloudflare y los registros DNS estrictamente necesarios para publicar el sitio.
 
-No conectarlos. No modificar NIC Argentina. No crear CNAME.
+No realizar modificaciones ajenas a la publicación ni cambiar configuraciones no relacionadas.
 
 ## Contenido
 
