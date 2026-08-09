@@ -247,6 +247,17 @@ export async function procesarArchivos(client, archivos, obtenerTexto) {
       await client.query('delete from documentos_indexados where id = $1', [doc.id]);
       resultado.eliminados.push(doc.titulo);
     }
+
+    // El índice ivfflat de fragmentos_embebidos agrupa sus "listas" a partir
+    // de los datos que existen al momento de construirse (schema.sql lo crea
+    // con la tabla todavía vacía). Sin este REINDEX, cada sincronización que
+    // agrega o cambia fragmentos deja el índice con una distribución cada vez
+    // más desactualizada, lo que puede hacer que buscar_fragmentos() no
+    // encuentre coincidencias reales aunque existan. Es barato (la base
+    // documental es chica) y solo corre cuando hubo cambios.
+    if (resultado.actualizados > 0 || resultado.eliminados.length > 0) {
+      await client.query('reindex index fragmentos_embebidos_embedding_idx');
+    }
   } catch (err) {
     resultado.errores.push(err instanceof Error ? err.message : String(err));
   }
