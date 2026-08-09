@@ -1,0 +1,16 @@
+{
+  "name": "asistente-rag-service",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Servicio local que arma respuestas del Secretario Virtual usando RAG contra Postgres+pgvector y Ollama. Sin dependencias de servicios pagos.",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "sync-drive": "node -e \"import('./sync-drive.js').then(m => m.sincronizar())\""
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "pg": "^8.12.0"
+  }
+}

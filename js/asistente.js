@@ -1,9 +1,10 @@
 // Secretario Virtual Institucional — widget de chat (Fase 1)
-// Arquitectura: el widget solo habla con un endpoint HTTP (una Supabase Edge
-// Function). Nunca llama a OpenAI, Supabase o Google directamente, y nunca
-// contiene claves. Mientras ASISTENTE_ENDPOINT esté vacío, el backend todavía
-// no está desplegado: el widget lo informa con honestidad en vez de simular
-// una respuesta.
+// Arquitectura: el widget solo habla con un endpoint HTTP — el webhook del
+// workflow de n8n "Secretario Virtual — Conversación" (ver local-stack/).
+// Nunca llama a Ollama, Postgres o Google directamente, y nunca contiene
+// claves. Todo el backend corre local y sin costo. Mientras
+// ASISTENTE_ENDPOINT esté vacío, el backend todavía no está desplegado: el
+// widget lo informa con honestidad en vez de simular una respuesta.
 const ASISTENTE_ENDPOINT = '';
 
 const PERFILES = [
