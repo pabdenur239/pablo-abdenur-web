@@ -140,6 +140,16 @@ Se autoriza configurar GitHub Pages, Cloudflare y los registros DNS estrictament
 
 No realizar modificaciones ajenas a la publicación ni cambiar configuraciones no relacionadas.
 
+## Fuente de contenido
+
+La carpeta de Google Drive "SITIO WEB" (y todas sus subcarpetas) es la única fuente oficial de contenido para pabloabdenur.com.ar.
+
+No utilizar información proveniente de otras carpetas de Drive, de conversaciones anteriores ni de memoria del proyecto para redactar o modificar contenido del sitio, salvo autorización expresa del usuario en el momento.
+
+Antes de publicar contenido nuevo o modificar contenido existente, verificar que la información provenga de un documento presente en "SITIO WEB".
+
+Si un documento de "SITIO WEB" es un borrador de trabajo, una versión no definitiva o material de referencia (por ejemplo, normativa de otro municipio usada como modelo), esa condición debe quedar explícita en el sitio; nunca presentarlo como propuesta propia definitiva.
+
 ## Contenido
 
 Solo publicar contenido confirmado. Si una afirmación no puede verificarse: no publicarla. Si existe duda: preguntar.
