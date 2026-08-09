@@ -2,18 +2,20 @@
 // Arquitectura: el widget solo habla con un endpoint HTTP — el webhook del
 // workflow de n8n "Secretario Virtual — Conversación" (ver local-stack/).
 // Nunca llama a Ollama, Postgres o Google directamente, y nunca contiene
-// claves. Todo el backend corre local y sin costo. Mientras
-// ASISTENTE_ENDPOINT esté vacío, el backend todavía no está desplegado: el
-// widget lo informa con honestidad en vez de simular una respuesta.
-const ASISTENTE_ENDPOINT = '';
+// claves. Todo el backend corre local y sin costo.
+//
+// Este archivo no define ninguna URL, puerto ni parámetro de entorno: todo
+// eso vive en config/config.js (window.SITIO_CONFIG). Para apuntar el
+// widget a otro backend, cambiar únicamente ese archivo.
+const CONFIG = window.SITIO_CONFIG.asistente;
+const ASISTENTE_ENDPOINT = CONFIG.endpointConversacion;
+const STORAGE_KEY = window.SITIO_CONFIG.storageKey;
 
 const PERFILES = [
   'Vecino', 'Comerciante', 'Emprendedor', 'Periodista', 'Proveedor',
   'Institución', 'Empleado municipal', 'Funcionario', 'Concejal',
   'Posible inversor', 'Otro',
 ];
-
-const STORAGE_KEY = 'asistente-abdenur';
 
 function loadState() {
   try {
