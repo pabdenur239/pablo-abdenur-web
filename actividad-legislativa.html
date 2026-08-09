@@ -4,12 +4,12 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Actividad Legislativa | Pablo Abdenur, Concejal</title>
-  <meta name="description" content="Actividad legislativa de Pablo Abdenur en el Concejo Deliberante de Libertador General San Martín: comisiones, cronología de trabajo parlamentario y biblioteca documental.">
+  <meta name="description" content="Actividad legislativa de Pablo Abdenur en el Concejo Deliberante de Libertador General San Martín: pedidos de comunicación, proyectos de ordenanza y dictámenes de comisión.">
   <meta name="theme-color" content="#091a33">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="es_AR">
   <meta property="og:title" content="Actividad Legislativa | Pablo Abdenur, Concejal">
-  <meta property="og:description" content="Comisiones, cronología de trabajo parlamentario y biblioteca documental del Concejo Deliberante.">
+  <meta property="og:description" content="Pedidos de comunicación, proyectos de ordenanza y dictámenes de comisión que impulso en el Concejo Deliberante.">
   <meta property="og:image" content="https://pabdenur239.github.io/pablo-abdenur-web/assets/img/og-pablo-abdenur.png">
   <meta property="og:url" content="https://pabdenur239.github.io/pablo-abdenur-web/actividad-legislativa.html">
   <meta name="twitter:card" content="summary_large_image">
@@ -38,41 +38,10 @@
     .legis-subnav a{white-space:nowrap;flex:none;color:#c5cfdb;font-size:13px;font-weight:700;padding:7px 13px;border:1px solid rgba(255,255,255,.2);border-radius:20px;transition:.2s}
     .legis-subnav a:hover,.legis-subnav a:focus-visible{background:var(--magenta);border-color:var(--magenta);color:#fff}
 
-    .legis-latest{list-style:none;margin:26px 0 0;padding:0;border-top:1px solid var(--line);max-width:820px}
-    .legis-latest li{padding:18px 0;border-bottom:1px solid var(--line);display:flex;gap:16px;font-size:16px}
-    .legis-latest time{flex:none;width:92px;color:var(--muted);font-size:13px;font-weight:700;padding-top:2px}
-
     .legis-glossary{list-style:none;margin:28px 0 0;padding:0;border-top:1px solid var(--line);max-width:820px}
     .legis-glossary li{padding:16px 0;border-bottom:1px solid var(--line);display:grid;grid-template-columns:200px 1fr;gap:18px}
     .legis-glossary b{font:700 15px "Manrope",sans-serif}
     .legis-glossary span{color:var(--muted);font-size:15px}
-
-    .legis-block .axis-grid{margin-top:28px}
-    .legis-block .axis-card{min-height:0}
-    .legis-block .axis-card p{font-size:15px}
-    .legis-block .axis-card .meta{display:block;margin-top:16px;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#bbc5d2}
-
-    .legis-more{margin-top:28px;max-width:820px}
-    .legis-more summary{cursor:pointer;font:700 14px "Manrope",sans-serif;color:var(--navy);padding:14px 0;border-top:1px solid var(--line);list-style:none}
-    .legis-more summary::-webkit-details-marker{display:none}
-    .legis-more summary::before{content:"▸ ";color:var(--magenta)}
-    .legis-more[open] summary::before{content:"▾ "}
-    .legis-more-list{list-style:none;margin:0;padding:0}
-    .legis-more-list li{padding:14px 0;border-bottom:1px solid var(--line);font-size:15px}
-    .legis-more-list b{display:block;font:700 15px "Manrope",sans-serif;margin-bottom:4px}
-    .legis-more-list span{color:var(--muted)}
-
-    .legis-timeline{list-style:none;margin:28px 0 0;padding:0;border-top:1px solid var(--line);max-width:900px}
-    .legis-timeline li{padding:20px 0;border-bottom:1px solid var(--line);display:flex;gap:16px;align-items:baseline;flex-wrap:wrap}
-    .legis-timeline time{flex:none;width:80px;color:var(--muted);font-size:13px;font-weight:700}
-    .legis-tag{flex:none;display:inline-block;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;padding:4px 10px;border-radius:20px}
-    .legis-tag.proyecto{background:var(--magenta);color:#fff}
-    .legis-tag.dictamen{background:var(--navy);color:#fff}
-    .legis-tag.ordenanza{border:1px solid var(--navy);color:var(--navy)}
-    .legis-tag.resolucion{border:1px solid var(--magenta);color:var(--magenta)}
-    .legis-tag.sesion{background:var(--ink);color:#fff}
-    .legis-tag.comision{border:1px solid var(--muted);color:var(--muted)}
-    .legis-timeline p{margin:0;font-size:15px;flex:1;min-width:220px}
 
     .legis-stats{display:flex;flex-wrap:wrap;gap:10px 28px;margin-top:24px;padding:20px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);max-width:900px}
     .legis-stats div{font-size:13px;color:var(--muted)}
@@ -87,7 +56,14 @@
     .legis-ficha b{display:block;font:700 15px "Manrope",sans-serif;margin-bottom:8px}
     .legis-ficha-meta{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12px;color:var(--muted)}
     .legis-ficha-meta span{white-space:nowrap}
+    .legis-ficha p.resumen{margin:10px 0 0;font-size:14.5px;color:var(--ink)}
     .legis-ficha-status{margin-top:10px;font-size:12px;font-style:italic;color:var(--muted)}
+
+    .legis-prep{list-style:none;margin:26px 0 0;padding:0;display:grid;gap:14px;max-width:900px}
+    .legis-prep li{background:var(--white);border:1px solid var(--line);border-left:4px solid var(--navy);padding:20px 24px}
+    .legis-prep b{display:block;font:700 15px "Manrope",sans-serif;margin-bottom:6px}
+    .legis-prep span{color:var(--muted);font-size:14.5px}
+    .legis-prep .draft-tag{display:inline-block;margin-top:10px;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;border:1px solid var(--muted);color:var(--muted);padding:4px 10px;border-radius:20px}
 
     .legis-soon{border:2px dashed rgba(9,26,51,.45);background:rgba(9,26,51,.035);padding:32px;margin-top:26px}
     .legis-soon p{color:var(--muted);font-size:15px;margin:0 0 14px}
@@ -107,10 +83,7 @@
       .legis-subnav{top:70px}
       .legis-subnav-inner{padding:7px 0}
       .legis-block{padding:44px 0}
-      .legis-block .axis-grid{grid-template-columns:1fr}
       .legis-glossary li{grid-template-columns:1fr}
-      .legis-timeline li{gap:8px}
-      .legis-timeline time{width:auto}
     }
   </style>
   <script src="js/app.js" defer></script>
@@ -145,7 +118,7 @@
         <a class="legis-back" href="index.html">← Volver al inicio</a>
         <p class="eyebrow">Concejo Deliberante</p>
         <h1>Actividad Legislativa</h1>
-        <p class="legis-hero-lead">Esta sección reúne, de forma pública y ordenada, la actividad legislativa que desarrollo como concejal: los temas que se tratan en comisión, las sesiones del Concejo Deliberante, los proyectos que presento o acompaño, y los documentos oficiales vinculados a ese trabajo.</p>
+        <p class="legis-hero-lead">Esta sección reúne, con base exclusiva en la documentación oficial disponible, los pedidos de comunicación, proyectos de ordenanza y dictámenes de comisión que impulso o coimpulso como concejal en el Concejo Deliberante de Libertador General San Martín.</p>
         <div class="legis-meta">
           <span>Última actualización: [fecha al momento de publicar]</span>
           <span class="version-chip">Versión pública 1.0</span>
@@ -153,231 +126,120 @@
       </div>
     </section>
 
-    <section class="legis-block" id="ultima">
-      <div class="container">
-        <p class="section-kicker">Última actividad</p>
-        <h2>Los movimientos más recientes</h2>
-        <ul class="legis-latest">
-          <li><time>22/07/2026</time><span>La Dirección de Medio Ambiente y Desarrollo Sustentable elevó un proyecto de ordenanza sobre control, mantenimiento y regularización de terrenos baldíos, girado a la Comisión de Ecología y Medio Ambiente.</span></li>
-          <li><time>14/07/2026</time><span>Agencias y cooperativas de remises solicitaron una reunión con el cuerpo de concejales.</span></li>
-          <li><time>08/07/2026</time><span>CAPOMA DDHH solicitó declarar de interés legislativo el cronograma del 50º aniversario de la Noche del Apagón.</span></li>
-        </ul>
-      </div>
-    </section>
-
     <nav class="legis-subnav" aria-label="Navegación dentro de esta página">
       <div class="container legis-subnav-inner">
-        <a href="#ultima">Última actividad</a>
-        <a href="#concejo">Concejo</a>
-        <a href="#comisiones">Comisiones</a>
-        <a href="#cronologia">Cronología</a>
-        <a href="#biblioteca">Biblioteca</a>
+        <a href="#que-es">Qué es</a>
+        <a href="#biblioteca">Proyectos y dictámenes</a>
+        <a href="#como-funciona">Cómo funciona</a>
+        <a href="#preparacion">En preparación</a>
         <a href="#actualizaciones">Actualizaciones</a>
       </div>
     </nav>
 
-    <section class="legis-block" id="concejo">
+    <section class="legis-block" id="que-es">
       <div class="container">
-        <p class="section-kicker">Cómo funciona</p>
-        <h2>¿Cómo trabaja el Concejo Deliberante?</h2>
-        <p class="lede">Una guía breve de los términos que vas a encontrar en esta página.</p>
-        <ul class="legis-glossary">
-          <li><b>Ordenanza</b><span>La norma de mayor jerarquía que puede dictar el Concejo; de carácter general y permanente.</span></li>
-          <li><b>Resolución</b><span>Decisión sobre asuntos internos, de trámite, o pedidos de informe al Departamento Ejecutivo.</span></li>
-          <li><b>Declaración</b><span>Expresión de una postura del Concejo sobre un tema, sin efecto normativo obligatorio.</span></li>
-          <li><b>Comunicación</b><span>Mensaje dirigido a otro poder u organismo, sin efecto normativo.</span></li>
-          <li><b>Dictamen</b><span>Opinión que emite una comisión sobre un proyecto antes de que se trate en sesión.</span></li>
-          <li><b>Ingreso</b><span>Cada nota, proyecto o pedido que entra formalmente al Concejo, con un número correlativo propio.</span></li>
-          <li><b>Temario / labor parlamentaria</b><span>La agenda de asuntos que cada comisión trata en su reunión semanal.</span></li>
-          <li><b>Sesión ordinaria</b><span>La reunión de todo el cuerpo de concejales donde se debaten y votan los proyectos que ya pasaron por comisión.</span></li>
-        </ul>
-      </div>
-    </section>
-
-    <section class="legis-block" id="comisiones">
-      <div class="container">
-        <p class="section-kicker">Comisiones</p>
-        <h2>Las comisiones que integro</h2>
-        <p class="lede">Integro cuatro de las once comisiones permanentes del Concejo Deliberante. Las funciones descriptas a continuación están tomadas del Reglamento Interno del Concejo.</p>
-        <div class="axis-grid">
-          <article class="axis-card">
-            <span>01</span>
-            <h3>Legislación General, Peticiones, Poderes y Reglamento y Recursos Humanos</h3>
-            <p>Dictamina sobre proyectos que puedan afectar la Carta Orgánica Municipal, peticiones de vecinos, personal municipal y todo asunto que no corresponda a otra comisión.</p>
-            <span class="meta">Presidenta: Rubio, Florencia · Reunión: martes 9:30</span>
-          </article>
-          <article class="axis-card">
-            <span>02</span>
-            <h3>Hacienda, Presupuesto y Cuentas</h3>
-            <p>Dictamina sobre el presupuesto municipal, los impuestos y tasas, y los asuntos vinculados a la hacienda municipal.</p>
-            <span class="meta">Presidente: Soruco, Luis Marcelo · Reunión: lunes 10:00</span>
-          </article>
-          <article class="axis-card">
-            <span>03</span>
-            <h3>Ecología y Medio Ambiente</h3>
-            <p>Dictamina sobre la prevención, cuidado y conservación del medio ambiente natural, urbano y rural del municipio.</p>
-            <span class="meta">Presidenta: Céspedes, Dolly G. · Reunión: miércoles 9:30</span>
-          </article>
-          <article class="axis-card">
-            <span>04</span>
-            <h3>Juicio Político</h3>
-            <p>Interviene en los procesos de juicio político, conforme lo previsto en la Carta Orgánica Municipal.</p>
-            <span class="meta">Presidente: Soruco, Luis Marcelo · Sin día de reunión fijo registrado</span>
-          </article>
-        </div>
-        <details class="legis-more">
-          <summary>Ver todas las comisiones del Concejo</summary>
-          <ul class="legis-more-list">
-            <li><b>Labor Parlamentaria</b><span>Organiza el orden del día de las sesiones y coordina el trabajo de los bloques políticos. — Presidente: Soruco, Luis Marcelo</span></li>
-            <li><b>Servicios Públicos</b><span>Dictamina sobre la concesión, reglamentación y control de los servicios públicos municipales. — Presidente: Alvarez, René Luis</span></li>
-            <li><b>Obras Públicas y Urbanismo</b><span>Dictamina sobre planeamiento urbano, edificación y obra pública. — Presidente: Ale, Jorge Ramón</span></li>
-            <li><b>Acción Social — Economías Regionales</b><span>Dictamina sobre políticas de familia, niñez, salud y grupos vulnerables. — Presidenta: Morales, Romina</span></li>
-            <li><b>Deporte, Turismo y Educación</b><span>Dictamina sobre proyectos vinculados al deporte, la cultura, la educación y el turismo. — Presidente: Casasola, Jonatan</span></li>
-            <li><b>Equidad de Género</b><span>Dictamina sobre proyectos vinculados a la perspectiva de género. — Presidenta: Céspedes, Dolly G.</span></li>
-            <li><b>Observadora Permanente — Integración</b><span>Realiza el seguimiento de asuntos de interés público durante el receso legislativo. — Presidente: Soruco, Luis Marcelo</span></li>
-          </ul>
-        </details>
-      </div>
-    </section>
-
-    <section class="legis-block" id="cronologia">
-      <div class="container">
-        <p class="section-kicker">Cronología</p>
-        <h2>Actividad legislativa reciente</h2>
-        <p class="lede">Basada en la planilla de labor parlamentaria de las comisiones de Legislación General, Hacienda y Ecología. No incluye resultados de votación: ese dato todavía no está verificado contra cada Acta.</p>
-        <ul class="legis-timeline">
-          <li><span class="legis-tag proyecto">Proyecto</span><time>22/07</time><p>La Dirección de Medio Ambiente eleva proyecto de ordenanza sobre terrenos baldíos.</p></li>
-          <li><span class="legis-tag comision">Comisión</span><time>14/07</time><p>Agencias y cooperativas de remises solicitan reunión con el cuerpo de concejales.</p></li>
-          <li><span class="legis-tag comision">Comisión</span><time>08/07</time><p>CAPOMA DDHH solicita declarar de interés legislativo el 50º aniversario de la Noche del Apagón.</p></li>
-          <li><span class="legis-tag proyecto">Proyecto</span><time>08/07</time><p>El SEOM eleva un modelo de ordenanza sobre blanqueo salarial de empleados municipales.</p></li>
-          <li><span class="legis-tag comision">Comisión</span><time>01/06</time><p>El SEOM solicita que el Concejo se pronuncie en rechazo al incremento tarifario de EJESA.</p></li>
-          <li><span class="legis-tag comision">Comisión</span><time>01/06</time><p>El Departamento Ejecutivo eleva el Decreto de Acuerdo Municipal Nº053232/2026.</p></li>
-          <li><span class="legis-tag proyecto">Proyecto</span><time>28/05</time><p>Concejal Morales eleva proyecto de comunicación sobre campaña de concientización de microbasurales.</p></li>
-          <li><span class="legis-tag proyecto">Proyecto</span><time>22/05</time><p>Concejal Rubio eleva proyecto de ordenanza sobre adhesión a la Ley Provincial Nº6016.</p></li>
-          <li><span class="legis-tag dictamen">Dictamen</span><time>22/05</time><p>Concejales Ale y Abdenur elevan dictamen de la Comisión de Legislación General sobre el Ingreso Nº61.</p></li>
-          <li><span class="legis-tag comision">Comisión</span><time>19/05</time><p>UPCN eleva nota solicitando mejoras para empleados municipales.</p></li>
-          <li><span class="legis-tag comision">Comisión</span><time>18/05</time><p>Vecinos del Barrio Ledesma solicitan que se corrijan los valores de los impuestos municipales.</p></li>
-          <li><span class="legis-tag proyecto">Proyecto</span><time>12/05</time><p>Concejal Céspedes eleva proyecto de ordenanza sobre modificación del art. 1º de la Ordenanza Nº3381/2025.</p></li>
-        </ul>
-        <details class="legis-more">
-          <summary>Ver historial completo</summary>
-          <ul class="legis-timeline" style="border-top:0;margin-top:0">
-            <li><span class="legis-tag proyecto">Proyecto</span><time>08/05</time><p>Concejales Céspedes y Abdenur elevan proyecto de ordenanza sobre derogación del art. 5º de la Ordenanza Nº3383/25.</p></li>
-            <li><span class="legis-tag comision">Comisión</span><time>08/05</time><p>La Parroquia Sagrado Corazón de Jesús comunica su visita al Concejo con la imagen del Santo Patrono.</p></li>
-            <li><span class="legis-tag proyecto">Proyecto</span><time>05/05</time><p>Concejal Casasola eleva proyecto de ordenanza sobre instalación de reductor de velocidad y señalización vial.</p></li>
-            <li><span class="legis-tag sesion">Sesión</span><time>14/04</time><p>Sesión Ordinaria Nº02.</p></li>
-            <li><span class="legis-tag dictamen">Dictamen</span><time>10/04</time><p>Concejales Casasola y Ale elevan dictamen de la Comisión de Deporte, Turismo y Educación sobre el Ingreso Nº023.</p></li>
-            <li><span class="legis-tag proyecto">Proyecto</span><time>09/04</time><p>Concejal Céspedes eleva proyecto de comunicación sobre el proyecto integral "La Guardiana del Río".</p></li>
-            <li><span class="legis-tag proyecto">Proyecto</span><time>08/04</time><p>Concejales Soruco y Rubio elevan proyecto de ordenanza sobre ratificación del Decreto Acuerdo Nº052690/2026.</p></li>
-            <li><span class="legis-tag proyecto">Proyecto</span><time>08/04</time><p>Concejales Soruco y Rubio elevan proyecto de resolución sobre creación de domicilio electrónico de los concejales.</p></li>
-            <li><span class="legis-tag comision">Comisión</span><time>07/04</time><p>El Departamento Ejecutivo remite el Decreto Acuerdo Nº052690/2026.</p></li>
-            <li><span class="legis-tag proyecto">Proyecto</span><time>06/04</time><p>Concejal Céspedes eleva proyecto de resolución solicitando información sobre la nómina de personal municipal.</p></li>
-            <li><span class="legis-tag comision">Comisión</span><time>06/04</time><p>Concejal Céspedes informa día y horario de la Comisión de Ecología.</p></li>
-            <li><span class="legis-tag proyecto">Proyecto</span><time>06/04</time><p>Concejal Abdenur eleva proyecto de resolución solicitando informe sobre el incremento de tasas municipales.</p></li>
-            <li><span class="legis-tag proyecto">Proyecto</span><time>06/04</time><p>Concejal Casasola eleva proyecto de resolución sobre conformación del bloque unipersonal.</p></li>
-            <li><span class="legis-tag sesion">Sesión</span><time>09/04</time><p>Sesión Ordinaria Nº01.</p></li>
-            <li><span class="legis-tag proyecto">Proyecto</span><time>30/03</time><p>Concejal Abdenur eleva proyecto de ordenanza sobre régimen de simplificación administrativa y reconversión de control comercial.</p></li>
-            <li><span class="legis-tag proyecto">Proyecto</span><time>18/03</time><p>Concejal Casasola eleva proyecto de ordenanza sobre modificación impositiva Nº3383/25.</p></li>
-            <li><span class="legis-tag comision">Comisión</span><time>16/03</time><p>El SEOM Jujuy solicita audiencia con el cuerpo de concejales.</p></li>
-            <li><span class="legis-tag comision">Comisión</span><time>02/03</time><p>Concejal Casasola comunica la creación del bloque unipersonal "Por Libertador".</p></li>
-            <li><span class="legis-tag comision">Comisión</span><time>24/02</time><p>Bomberos Voluntarios solicitan audiencia con el cuerpo de concejales.</p></li>
-          </ul>
-        </details>
+        <p class="section-kicker">Qué es esta sección</p>
+        <h2>Qué es esta sección</h2>
+        <p class="lede">Esta página reúne los documentos legislativos —pedidos de comunicación, proyectos de ordenanza y dictámenes de comisión— que impulso o coimpulso como concejal, tal como están redactados en el archivo oficial. No incluye una cronología de sesiones ni la composición de comisiones: esa documentación todavía no está disponible en la fuente oficial (ver "Actualizaciones" al final de esta página).</p>
       </div>
     </section>
 
     <section class="legis-block" id="biblioteca">
       <div class="container">
         <p class="section-kicker">Biblioteca documental</p>
-        <h2>Biblioteca documental</h2>
-        <p class="lede">Documentos oficiales vinculados a la actividad legislativa, organizados por tipo. La publicación de los archivos descargables está en preparación.</p>
+        <h2>Proyectos y dictámenes</h2>
+        <p class="lede">Documentos legislativos vinculados a mi actividad como concejal, organizados por tipo. La publicación de los archivos descargables está en preparación.</p>
         <div class="legis-stats">
-          <div><strong>10</strong>Actas de sesión</div>
-          <div><strong>9</strong>Ordenanzas</div>
-          <div><strong>8</strong>Resoluciones</div>
-          <div><strong>4</strong>Decretos acuerdo</div>
-          <div><strong>9</strong>Dictámenes</div>
+          <div><strong>1</strong>Pedido de comunicación</div>
+          <div><strong>2</strong>Proyectos de ordenanza</div>
+          <div><strong>1</strong>Dictamen de comisión</div>
         </div>
 
-        <details class="legis-doclist">
-          <summary>Actas de sesión (10)</summary>
-          <div class="legis-ficha"><b>Acta Nº1 a Nº10 — Sesiones ordinarias</b>
-            <div class="legis-ficha-meta"><span>Tipo: Acta de sesión</span><span>Comisión: —</span><span>Estado: archivo oficial</span></div>
-            <p class="legis-ficha-status">Fecha exacta y cantidad de páginas de cada acta: pendiente de confirmar documento por documento. PDF en preparación para publicación.</p>
+        <details class="legis-doclist" open>
+          <summary>Pedidos de comunicación (1)</summary>
+          <div class="legis-ficha">
+            <b>Tarifas eléctricas y cumplimiento del contrato de concesión de EJESA</b>
+            <div class="legis-ficha-meta"><span>Tipo: Pedido de Comunicación</span><span>Autores: Concejales Pablo Daniel Abdenur y Ramón Jorge Ale</span><span>Ingreso Nº112 · agosto de 2026</span></div>
+            <p class="resumen">Solicita al Poder Ejecutivo Provincial, la Secretaría de Energía, la SUSEPU y EJESA un informe documentado sobre el cumplimiento en Libertador General San Martín de la Emergencia Energética y Tarifaria (Decreto Acuerdo Nº5658-JG/2026) y de la Resolución Nº918-ISPTYV/2026, organizado en tres ejes: el cumplimiento del contrato de concesión de EJESA, la metodología y evolución del Valor Agregado de Distribución (VAD), y el alcance y funcionamiento de la Tarifa Social Eléctrica. Pide una respuesta formal dentro de los 15 días hábiles administrativos.</p>
+            <p class="legis-ficha-status">Estado del dictamen: no encontrado en la fuente oficial. PDF en preparación para publicación.</p>
           </div>
         </details>
 
-        <details class="legis-doclist">
-          <summary>Ordenanzas (9)</summary>
-          <div class="legis-ficha"><b>Ordenanza sobre vehículos eléctricos</b>
-            <div class="legis-ficha-meta"><span>Tipo: Ordenanza</span><span>Autores: Concejales Ale y Abdenur</span><span>Estado: presentada</span></div>
-            <p class="legis-ficha-status">Fecha y cantidad de páginas: pendiente de confirmar. PDF en preparación para publicación.</p>
+        <details class="legis-doclist" open>
+          <summary>Proyectos de ordenanza (2)</summary>
+          <div class="legis-ficha">
+            <b>Exención del impuesto automotor para vehículos híbridos y eléctricos</b>
+            <div class="legis-ficha-meta"><span>Tipo: Proyecto de Ordenanza</span><span>Autores: Concejales Pablo Daniel Abdenur y Ramón Jorge Ale</span><span>Ingreso Nº061</span></div>
+            <p class="resumen">Exime del pago del impuesto automotor a los vehículos livianos y pesados propulsados por motores híbrido-eléctricos o totalmente eléctricos, siempre que esas características sean de fábrica y estén acreditadas con la Licencia de Configuración Ambiental (LCA) o el certificado de emisiones correspondiente. El beneficio dura dos años para vehículos particulares y tres años para los afectados al transporte público o alternativo; la ordenanza tiene una vigencia de dos años, prorrogable por decreto del Departamento Ejecutivo por dos años más. El control se realiza mediante un sticker identificatorio en el parabrisas.</p>
+            <p class="legis-ficha-status">Estado del dictamen: no encontrado en la fuente oficial. PDF en preparación para publicación.</p>
           </div>
-          <div class="legis-ficha"><b>Ordenanza sobre tasas municipales</b>
-            <div class="legis-ficha-meta"><span>Tipo: Ordenanza</span><span>Autores: Concejales Céspedes y Abdenur</span><span>Estado: presentada</span></div>
-            <p class="legis-ficha-status">Fecha y cantidad de páginas: pendiente de confirmar. PDF en preparación para publicación.</p>
-          </div>
-          <div class="legis-ficha"><b>Otras 7 ordenanzas del registro del Concejo</b>
-            <div class="legis-ficha-meta"><span>Tipo: Ordenanza</span><span>Estado: archivo oficial</span></div>
-            <p class="legis-ficha-status">Fichas individuales pendientes de completar. PDF en preparación para publicación.</p>
-          </div>
-        </details>
-
-        <details class="legis-doclist">
-          <summary>Resoluciones (8)</summary>
-          <div class="legis-ficha"><b>Resolución de incorporación de Pablo Abdenur como concejal</b>
-            <div class="legis-ficha-meta"><span>Tipo: Resolución</span><span>Estado: archivo oficial</span></div>
-            <p class="legis-ficha-status">Fecha y cantidad de páginas: pendiente de confirmar. PDF en preparación para publicación.</p>
-          </div>
-          <div class="legis-ficha"><b>Conformación de las comisiones de trabajo</b>
-            <div class="legis-ficha-meta"><span>Tipo: Resolución</span><span>Estado: archivo oficial</span></div>
-            <p class="legis-ficha-status">Fecha y cantidad de páginas: pendiente de confirmar. PDF en preparación para publicación.</p>
-          </div>
-          <div class="legis-ficha"><b>Otras 6 resoluciones del registro del Concejo</b>
-            <div class="legis-ficha-meta"><span>Tipo: Resolución</span><span>Estado: archivo oficial</span></div>
-            <p class="legis-ficha-status">Fichas individuales pendientes de completar. PDF en preparación para publicación.</p>
+          <div class="legis-ficha">
+            <b>Modificación de la Tasa por Servicio Urbano de Limpieza (art. 5°, Ordenanza Nº3383/2025)</b>
+            <div class="legis-ficha-meta"><span>Tipo: Proyecto de Ordenanza</span><span>Autores: Concejales Pablo Daniel Abdenur y Dolly G. Céspedes</span><span>Ingreso Nº073 · 08/05/2026</span></div>
+            <p class="resumen">Deroga y sustituye el artículo 5° de la Ordenanza Nº3383/2025, fijando los importes fijos básicos de la Tasa por Servicio Urbano de Limpieza cada 100 m² de superficie del inmueble según cuatro zonas (Zona 1: 800 UT, Zona 2: 700 UT, Zona 3: 600 UT, Zona 4: 500 UT), con un pago mínimo mensual equivalente a 100 m². Mantiene el mecanismo de exención total o parcial para contribuyentes de menor capacidad contributiva, con ventana de solicitud en marzo y abril de cada año, canalizada por la Dirección de Rentas Municipal.</p>
+            <p class="legis-ficha-status">Con dictamen favorable de la Comisión de Hacienda, Presupuesto y Cuentas (Dictamen Nº001/2026, ver abajo). PDF en preparación para publicación.</p>
           </div>
         </details>
 
-        <details class="legis-doclist">
-          <summary>Decretos acuerdo (4)</summary>
-          <div class="legis-ficha"><b>Decreto Acuerdo Nº052690/2026</b>
-            <div class="legis-ficha-meta"><span>Tipo: Decreto acuerdo</span><span>Comisión: Hacienda</span><span>Estado: remitido para ratificación</span></div>
-            <p class="legis-ficha-status">Cantidad de páginas: pendiente de confirmar. PDF en preparación para publicación.</p>
-          </div>
-          <div class="legis-ficha"><b>Otros 3 decretos acuerdo del registro del Concejo</b>
-            <div class="legis-ficha-meta"><span>Tipo: Decreto acuerdo</span><span>Estado: archivo oficial</span></div>
-            <p class="legis-ficha-status">Fichas individuales pendientes de completar. PDF en preparación para publicación.</p>
+        <details class="legis-doclist" open>
+          <summary>Dictámenes de comisión (1)</summary>
+          <div class="legis-ficha">
+            <b>Dictamen Nº001/2026 — Comisión de Hacienda, Presupuesto y Cuentas</b>
+            <div class="legis-ficha-meta"><span>Tipo: Dictamen de Comisión</span><span>Sobre: Ingreso Nº073 (modificación art. 5°, Ordenanza Nº3383/2025)</span><span>Dictamen: favorable</span></div>
+            <p class="resumen">La Comisión de Hacienda, Presupuesto y Cuentas aprobó el proyecto de modificación de la Tasa por Servicio Urbano de Limpieza, con ajustes de técnica legislativa y redacción, manteniendo sin cambios las cuatro zonas y sus valores en Unidades Tributarias del proyecto original. Faculta al Departamento Ejecutivo Municipal a realizar las adecuaciones administrativas y reglamentarias necesarias para su aplicación.</p>
+            <p class="legis-ficha-status">PDF en preparación para publicación.</p>
           </div>
         </details>
+      </div>
+    </section>
 
-        <details class="legis-doclist">
-          <summary>Dictámenes (9)</summary>
-          <div class="legis-ficha"><b>Dictamen de la Comisión de Hacienda — rechazo del proyecto de modificación tributaria</b>
-            <div class="legis-ficha-meta"><span>Tipo: Dictamen</span><span>Comisión: Hacienda</span><span>Estado: emitido</span></div>
-            <p class="legis-ficha-status">Fecha y cantidad de páginas: pendiente de confirmar. PDF en preparación para publicación.</p>
-          </div>
-          <div class="legis-ficha"><b>Otros 8 dictámenes del registro del Concejo</b>
-            <div class="legis-ficha-meta"><span>Tipo: Dictamen</span><span>Estado: archivo oficial</span></div>
-            <p class="legis-ficha-status">Fichas individuales pendientes de completar. PDF en preparación para publicación.</p>
-          </div>
-        </details>
+    <section class="legis-block" id="como-funciona">
+      <div class="container">
+        <p class="section-kicker">Cómo funciona</p>
+        <h2>¿Cómo trabaja el Concejo Deliberante?</h2>
+        <p class="lede">Una guía breve de los términos que vas a encontrar en esta página, tal como aparecen en los documentos citados arriba.</p>
+        <ul class="legis-glossary">
+          <li><b>Ordenanza</b><span>La norma de mayor jerarquía que puede dictar el Concejo Deliberante.</span></li>
+          <li><b>Pedido de Comunicación</b><span>Mensaje que el Concejo dirige a otro poder u organismo, sin efecto normativo obligatorio, para solicitar información o la intervención de las autoridades competentes.</span></li>
+          <li><b>Dictamen de Comisión</b><span>Opinión que emite una comisión sobre un proyecto antes de que se trate en sesión; puede ser favorable o desfavorable.</span></li>
+          <li><b>Ingreso</b><span>Número correlativo que identifica cada proyecto o nota que entra formalmente al Concejo Deliberante.</span></li>
+          <li><b>Comisión</b><span>Área de trabajo interna del Concejo donde se estudian y dictaminan los proyectos antes de su tratamiento en sesión; por ejemplo, la Comisión de Hacienda, Presupuesto y Cuentas.</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="legis-block" id="preparacion">
+      <div class="container">
+        <p class="section-kicker">En preparación</p>
+        <h2>Proyectos en preparación</h2>
+        <p class="lede">Proyectos propios en distintas etapas, todavía no presentados formalmente ante el Concejo Deliberante.</p>
+        <ul class="legis-prep">
+          <li>
+            <b>PRODECOM — Programa Municipal de Desarrollo Comercial, Emprendedor y Productivo</b>
+            <span>Proyecto de ordenanza redactado en su totalidad, pendiente de presentación formal ante la Comisión de Legislación. <a href="prodecom.html">Ver la página dedicada a PRODECOM →</a></span>
+          </li>
+          <li>
+            <b>Regulación integral de la Feria Municipal de Verduras y el Predio Ferial Municipal</b>
+            <span>Proyecto en preparación sobre el funcionamiento de la Feria Municipal.</span>
+            <span class="draft-tag">Borrador de trabajo interno — no presentado</span>
+          </li>
+        </ul>
       </div>
     </section>
 
     <section class="legis-block" id="actualizaciones">
       <div class="container">
         <p class="section-kicker">Próxima etapa</p>
-        <h2>Próximamente</h2>
+        <h2>Actualizaciones</h2>
         <div class="legis-soon">
-          <p>Estos contenidos todavía no están disponibles. Se incorporarán en una etapa posterior:</p>
+          <p>Esta es la información que todavía no está disponible en la fuente oficial, y por lo tanto no forma parte de esta publicación:</p>
           <ul>
-            <li>Resultados de votación verificados contra cada Acta.</li>
-            <li>Fecha exacta y cantidad de páginas de cada documento de la Biblioteca documental.</li>
-            <li>Descarga real de los PDF oficiales.</li>
-            <li>Fotografías institucionales de sesiones y comisiones (si se consiguen; no se van a generar con IA).</li>
-            <li>Movimientos posteriores al 28/07/2026.</li>
-            <li>Enlaces cruzados con el módulo EJESA y con PRODECOM.</li>
+            <li>Cronología de sesiones y reuniones de comisión: no disponible. Las carpetas de origen "Labor Parlamentaria (Día Martes)" y "Sesión Ordinaria (Día Jueves)" todavía no tienen documentos cargados.</li>
+            <li>Comisiones que integro como concejal: no publicado en esta versión, por no encontrarse en la fuente oficial un documento de conformación de comisiones ni el Reglamento Interno del Concejo.</li>
+            <li>Resultado de votación de cada proyecto: no disponible.</li>
+            <li>Dictamen del proyecto de ordenanza sobre vehículos híbridos y eléctricos (Ingreso Nº061): no encontrado en la fuente oficial.</li>
+            <li>Descarga de los PDF originales de cada documento.</li>
+            <li>Fotografías institucionales: no se encontraron fotografías en las carpetas de origen.</li>
           </ul>
         </div>
       </div>
@@ -387,9 +249,12 @@
       <div class="container legis-sources">
         <p class="section-kicker">Fuentes documentales</p>
         <ul>
-          <li>Planilla "Comisiones — Temario de labor parlamentario", fuente primaria de esta cronología.</li>
-          <li>Reglamento Interno del Concejo Deliberante de Libertador General San Martín (artículos 48 a 62, comisiones permanentes).</li>
-          <li>Actas de Sesión Ordinaria Nº1 a Nº10, ordenanzas, resoluciones, decretos acuerdo y dictámenes archivados en el registro del Concejo.</li>
+          <li>Pedido de Comunicación Nº112 (Abdenur, Ale) — carpeta "1.Pedido de Comunicacion".</li>
+          <li>Proyecto de Ordenanza Nº061, vehículos híbridos y eléctricos (Ale, Abdenur) — carpeta "2.Pedido de Ordenanza (en conjunto)".</li>
+          <li>Proyecto de Ordenanza Nº073, Tasa por Servicio Urbano de Limpieza (Céspedes, Abdenur) — carpeta "2.Pedido de Ordenanza (en conjunto)".</li>
+          <li>Dictamen de Comisión Nº001/2026, Comisión de Hacienda, Presupuesto y Cuentas — carpeta "3.Proyectos de Ordenanzas (propios) / 1. Presentados".</li>
+          <li>PRODECOM — Versión Definitiva Corregida — carpeta "3.Proyectos de Ordenanzas (propios) / 2. No Presentados / PRODECOM".</li>
+          <li>Proyecto de Ordenanza Integral de la Feria Municipal, borrador de trabajo v3 — carpeta "3.Proyectos de Ordenanzas (propios) / 2. No Presentados / PROYECTO DE ORDENANZA FERIA MUNICIPAL".</li>
         </ul>
       </div>
     </section>
