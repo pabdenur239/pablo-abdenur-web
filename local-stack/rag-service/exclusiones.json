@@ -1,0 +1,14 @@
+{
+  "_comentario": "Lista editable a mano. 'excluir' fuerza que un archivo NUNCA se indexe aunque los filtros automáticos lo dejarían pasar; 'incluir' fuerza que se indexe aunque los filtros automáticos lo excluirían. Se puede identificar un archivo por su driveFileId (más preciso) o por una porción del nombre/ruta (rutaContiene, sin distinguir mayúsculas). motivo es obligatorio: queda en el registro de cada sincronización.",
+  "excluir": [
+    {
+      "rutaContiene": "HABILITACION COMERCIAL SIMPLIFICADA",
+      "motivo": "Ordenanza N° 8265/2026 de la Municipalidad de San Salvador de Jujuy — material de referencia de otro municipio, no un documento propio de Libertador General San Martín."
+    },
+    {
+      "rutaContiene": "PROYECTO DE ORDENANZA FERIA MUNICIPAL",
+      "motivo": "Borrador de trabajo interno (v3), explícitamente no presentado ante el Concejo Deliberante ni consolidado contra el marco jurídico aplicable."
+    }
+  ],
+  "incluir": []
+}

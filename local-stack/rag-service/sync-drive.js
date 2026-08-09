@@ -1,11 +1,17 @@
-// Secretario Virtual Institucional — sincronización documental (Fase 1)
+// Secretario Virtual Institucional — sincronización documental (Fase 2)
 //
 // Recorre la carpeta "SITIO WEB" de Google Drive, extrae el texto de cada
-// documento, lo divide en fragmentos y los guarda embebidos (con el
-// modelo local de Ollama) en el Postgres local, para que /asistente
-// pueda buscarlos. Único servicio externo involucrado: la API de Google
-// Drive en modo solo lectura, gratuita dentro de su cuota normal — no es
-// una suscripción ni un servicio pago.
+// documento, lo filtra (ver filtros.js), lo divide en fragmentos y los
+// guarda embebidos (con el modelo local de Ollama) en el Postgres local,
+// para que /asistente pueda buscarlos. Único servicio externo
+// involucrado: la API de Google Drive en modo solo lectura, gratuita
+// dentro de su cuota normal — no es una suscripción ni un servicio pago.
+//
+// Sincronización incremental: un documento sin cambios (mismo hash de
+// contenido) no vuelve a pasar por el modelo de embeddings; un documento
+// modificado solo reindexa sus propios fragmentos; un documento borrado
+// en Drive (o ya no visible para la cuenta de servicio) se borra también
+// acá, con sus fragmentos. Nunca se reconstruye el índice completo.
 //
 // La ejecuta el workflow de n8n "sync-drive" por cron, llamando a
 // POST /sync-drive de este mismo servicio.
@@ -22,6 +28,7 @@
 import crypto from 'node:crypto';
 import { pool } from './db.js';
 import { embed } from './ollama.js';
+import { evaluarPorNombre, evaluarPorContenido } from './filtros.js';
 
 const CHUNK_SIZE = 1200;
 const CHUNK_OVERLAP = 150;
@@ -132,26 +139,62 @@ function hashTexto(texto) {
   return crypto.createHash('sha256').update(texto).digest('hex');
 }
 
-export async function sincronizar() {
-  const resultado = { revisados: 0, actualizados: 0, sinCambios: 0, noSoportados: [], errores: [] };
-  let client;
+// Procesa una lista ya obtenida de archivos ({id, name, mimeType, ruta})
+// contra el índice. Se separa de sincronizar() para poder reutilizar
+// exactamente la misma lógica de filtrado/hash/chunking/embeddings desde
+// un arnés de pruebas que no pasa por la autenticación real de Google
+// (ver test/probar-indexacion.js) — el resultado es idéntico al de una
+// sincronización real, solo cambia de dónde sale el texto de cada archivo.
+export async function procesarArchivos(client, archivos, obtenerTexto) {
+  const resultado = {
+    revisados: 0, actualizados: 0, sinCambios: 0,
+    excluidos: [], duplicados: [], eliminados: [], noSoportados: [], errores: [],
+  };
+  const hashesVistosEnEstaCorrida = new Map(); // hash de texto -> título del primer documento que lo tuvo
+  const driveIdsVistos = [];
 
   try {
-    client = await pool.connect();
-    const token = await googleAccessToken();
-    const folderId = process.env.DRIVE_SITIO_WEB_FOLDER_ID;
-    const archivos = await listarCarpeta(token, folderId, 'SITIO WEB');
-
     for (const file of archivos) {
       resultado.revisados++;
+      driveIdsVistos.push(file.id);
+
       try {
-        const texto = await extraerTexto(token, file);
-        if (!texto) {
+        // 1. Filtro rápido por nombre, antes de gastar una llamada de
+        //    extracción/OCR en un archivo que de todos modos se va a excluir.
+        const filtroNombre = evaluarPorNombre(file, file.ruta);
+        if (!filtroNombre.indexar) {
+          resultado.excluidos.push({ archivo: `${file.ruta}/${file.name}`, motivo: filtroNombre.motivo });
+          continue;
+        }
+
+        const textoOriginal = await obtenerTexto(file);
+        if (!textoOriginal) {
           resultado.noSoportados.push(`${file.ruta}/${file.name}`);
           continue;
         }
 
+        // 2. Filtro por contenido (detecta borradores por su propio texto,
+        //    y recorta secciones internas que no deben citarse).
+        const filtroContenido = evaluarPorContenido(file, file.ruta, textoOriginal);
+        if (!filtroContenido.indexar) {
+          resultado.excluidos.push({ archivo: `${file.ruta}/${file.name}`, motivo: filtroContenido.motivo });
+          continue;
+        }
+        const texto = filtroContenido.texto;
+
         const hash = hashTexto(texto);
+
+        // 3. Duplicados: mismo contenido ya visto en otro archivo, en esta
+        //    misma corrida.
+        if (hashesVistosEnEstaCorrida.has(hash)) {
+          resultado.duplicados.push({
+            archivo: `${file.ruta}/${file.name}`,
+            duplicaA: hashesVistosEnEstaCorrida.get(hash),
+          });
+          continue;
+        }
+        hashesVistosEnEstaCorrida.set(hash, `${file.ruta}/${file.name}`);
+
         const { rows: existentes } = await client.query(
           'select id, hash_contenido from documentos_indexados where drive_file_id = $1',
           [file.id],
@@ -170,6 +213,7 @@ export async function sincronizar() {
             'update documentos_indexados set hash_contenido = $1, ultima_actualizacion = now() where id = $2',
             [hash, documentoId],
           );
+          // Reindexa ÚNICAMENTE los fragmentos de este documento, no del resto del índice.
           await client.query('delete from fragmentos_embebidos where documento_id = $1', [documentoId]);
         } else {
           const { rows } = await client.query(
@@ -192,11 +236,32 @@ export async function sincronizar() {
         resultado.errores.push(`${file.name}: ${err instanceof Error ? err.message : String(err)}`);
       }
     }
+
+    // 4. Documentos que estaban indexados pero ya no aparecen en Drive
+    //    (borrados, movidos fuera de "SITIO WEB", o sin permiso de
+    //    lectura para la cuenta de servicio): se eliminan del índice,
+    //    junto con sus fragmentos (ON DELETE CASCADE).
+    const { rows: indexados } = await client.query('select id, drive_file_id, titulo from documentos_indexados');
+    const idsAusentes = indexados.filter(d => !driveIdsVistos.includes(d.drive_file_id));
+    for (const doc of idsAusentes) {
+      await client.query('delete from documentos_indexados where id = $1', [doc.id]);
+      resultado.eliminados.push(doc.titulo);
+    }
   } catch (err) {
     resultado.errores.push(err instanceof Error ? err.message : String(err));
-  } finally {
-    client?.release();
   }
 
   return resultado;
+}
+
+export async function sincronizar() {
+  const client = await pool.connect();
+  try {
+    const token = await googleAccessToken();
+    const folderId = process.env.DRIVE_SITIO_WEB_FOLDER_ID;
+    const archivos = await listarCarpeta(token, folderId, 'SITIO WEB');
+    return await procesarArchivos(client, archivos, file => extraerTexto(token, file));
+  } finally {
+    client.release();
+  }
 }

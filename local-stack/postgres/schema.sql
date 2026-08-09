@@ -34,6 +34,10 @@ create table if not exists mensajes (
   conversacion_id uuid not null references conversaciones(id) on delete cascade,
   remitente text not null,                        -- visitante | asistente | humano | sistema
   contenido text not null,
+  -- Referencia interna a los documentos usados para responder (título +
+  -- carpeta + similitud), para poder mostrar la fuente al visitante en
+  -- una fase futura. Vacío en mensajes de tipo "visitante".
+  fuentes jsonb not null default '[]'::jsonb,
   creado_en timestamptz not null default now()
 );
 

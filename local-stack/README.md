@@ -1,4 +1,4 @@
-# Secretario Virtual Institucional — stack local (Fase 1)
+# Secretario Virtual Institucional — stack local (Fase 2)
 
 Todo lo que hace falta para correr el asistente corre en la propia
 computadora o servidor, sin ninguna cuenta paga ni suscripción:
@@ -104,6 +104,44 @@ node server.js
 Postgres ni Ollama corriendo, `/asistente` va a devolver un error 500
 controlado (no rompe el proceso) — es lo esperado hasta levantar el
 resto del stack.
+
+## Qué documentos entran al índice (Fase 2)
+
+`sync-drive.js` filtra dos veces antes de indexar un archivo (ver
+`filtros.js`):
+
+1. **Por nombre**, antes de gastar una extracción/OCR: descarta archivos
+   cuyo nombre sugiera borrador, copia o temporal.
+2. **Por contenido**, ya con el texto extraído: descarta documentos cuyo
+   propio texto se identifique como borrador o material de referencia, y
+   recorta cualquier sección marcada como interna (por ejemplo, un
+   apéndice de estrategia política) antes de embeberlo — el resto del
+   documento sí se indexa.
+
+`exclusiones.json` tiene la última palabra sobre ambos filtros: permite
+forzar a mano que un archivo puntual se excluya o se incluya, con el
+motivo documentado. Editarlo ahí, no en el código.
+
+También se descartan duplicados exactos (mismo contenido en dos
+archivos distintos) y se eliminan del índice los documentos que ya no
+aparecen en "SITIO WEB" (borrados, movidos, o sin permiso de lectura).
+
+## Probar la indexación sin Google Drive ni Ollama
+
+`test/probar-indexacion.js` corre la misma lógica de filtrado, hash,
+chunking y guardado que la sincronización real, a partir de un
+manifiesto local en lugar de Drive:
+
+```bash
+cd local-stack/rag-service
+npm install
+MANIFEST_PATH=/ruta/a/un/manifiesto.mjs DATABASE_URL=postgresql://... node test/probar-indexacion.js
+```
+
+El manifiesto debe exportar `documentos`: un array de
+`{ id, name, mimeType, ruta, texto }`. Sirve para probar cambios en los
+filtros o en el chunking contra una base de Postgres real, sin
+necesitar la cuenta de servicio de Google todavía.
 
 ## Limitación conocida
 

@@ -1,4 +1,4 @@
-// Secretario Virtual Institucional — servicio local de RAG (Fase 1)
+// Secretario Virtual Institucional — servicio local de RAG (Fase 2)
 //
 // n8n recibe el mensaje del widget (webhook) y se lo reenvía a este
 // servicio, que hace la búsqueda en la base documental y arma la
@@ -97,25 +97,40 @@ app.post('/asistente', async (req, res) => {
     // 5. Buscar contexto oficial relevante (RAG) en la base local.
     const queryEmbedding = await embed(mensaje);
     const { rows: fragmentos } = await client.query(
-      'select texto, similarity from buscar_fragmentos($1::vector, 5, 0.65)',
+      'select documento_id, texto, similarity from buscar_fragmentos($1::vector, 5, 0.65)',
       [JSON.stringify(queryEmbedding)],
     );
 
-    // 6. Responder solo con lo encontrado; si no hay nada, decirlo con honestidad.
+    // 6. Responder solo con lo encontrado; si no hay nada, decirlo con honestidad
+    //    usando exactamente esta frase (no una variante).
     let respuesta;
+    let fuentes = [];
     if (fragmentos.length > 0) {
       const contexto = fragmentos.map((f, i) => `[Fragmento ${i + 1}]\n${f.texto}`).join('\n\n');
       respuesta = await chat(SYSTEM_PROMPT, `Contexto oficial disponible:\n\n${contexto}\n\nPregunta del visitante: ${mensaje}`);
+
+      // Referencia interna a los documentos usados, para poder mostrar la
+      // fuente al visitante en una fase futura. No se expone todavía en
+      // el widget.
+      const documentoIds = [...new Set(fragmentos.map(f => f.documento_id))];
+      const { rows: documentos } = await client.query(
+        'select id, titulo, ruta_carpeta from documentos_indexados where id = any($1::uuid[])',
+        [documentoIds],
+      );
+      fuentes = fragmentos.map(f => {
+        const doc = documentos.find(d => d.id === f.documento_id);
+        return { titulo: doc?.titulo, rutaCarpeta: doc?.ruta_carpeta, similitud: Number(f.similarity.toFixed(3)) };
+      });
     } else {
-      respuesta = 'No tengo información oficial suficiente para responder esa consulta con precisión. ¿Querés que la derive a una persona del equipo?';
+      respuesta = 'Actualmente no dispongo de documentación oficial para responder esa consulta.';
     }
 
     await client.query(
-      "insert into mensajes (conversacion_id, remitente, contenido) values ($1, 'asistente', $2)",
-      [conversacion.id, respuesta],
+      "insert into mensajes (conversacion_id, remitente, contenido, fuentes) values ($1, 'asistente', $2, $3::jsonb)",
+      [conversacion.id, respuesta, JSON.stringify(fuentes)],
     );
 
-    res.json({ respuesta, visitanteId: visitante.id, conversacionId: conversacion.id });
+    res.json({ respuesta, visitanteId: visitante.id, conversacionId: conversacion.id, fuentes });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Error interno del asistente.' });
