@@ -161,7 +161,7 @@
       <div class="container">
         <ol class="prod-timeline">
           <li class="prod-step done"><a href="#por-que"><span class="prod-dot" aria-hidden="true"></span><span>Diagnóstico</span></a></li>
-          <li class="prod-step current"><a href="#estado"><span class="prod-dot" aria-hidden="true"></span><span>Redacción</span></a></li>
+          <li class="prod-step current"><a href="#estado" aria-current="step"><span class="prod-dot" aria-hidden="true"></span><span>Redacción</span></a></li>
           <li class="prod-step"><a href="#etapa-presentacion"><span class="prod-dot" aria-hidden="true"></span><span>Presentación</span></a></li>
           <li class="prod-step"><a href="#etapa-tratamiento"><span class="prod-dot" aria-hidden="true"></span><span>Tratamiento</span></a></li>
           <li class="prod-step"><a href="#etapa-aprobacion"><span class="prod-dot" aria-hidden="true"></span><span>Aprobación</span></a></li>
@@ -366,5 +366,72 @@
       <a href="#contenido-prod">Volver arriba ↑</a>
     </div>
   </footer>
+
+  <script>
+    (function () {
+      var order = [];
+      var stepByTarget = {};
+
+      document.querySelectorAll('.prod-timeline a').forEach(function (link) {
+        var id = link.getAttribute('href').slice(1);
+        var section = document.getElementById(id);
+        if (!section) return;
+        stepByTarget[id] = { step: link.closest('.prod-step'), link: link, section: section };
+        order.push(id);
+      });
+
+      if (!order.length) return;
+
+      // scroll-padding-top (html) y scroll-margin-top ([id]) se suman al posicionar
+      // un ancla; se recalcula en vivo (incluye resize, por el breakpoint de 800px)
+      // para que la línea de referencia coincida siempre con el punto real de aterrizaje.
+      var TRIGGER_LINE = 0;
+      var recalcTriggerLine = function () {
+        var scrollPaddingTop = parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0;
+        var scrollMarginTop = parseFloat(getComputedStyle(stepByTarget[order[0]].section).scrollMarginTop) || 0;
+        TRIGGER_LINE = scrollPaddingTop + scrollMarginTop + 2;
+      };
+      recalcTriggerLine();
+
+      var setActiveStep = function (id) {
+        order.forEach(function (key) {
+          var entry = stepByTarget[key];
+          if (key === id) {
+            entry.step.classList.add('current');
+            entry.link.setAttribute('aria-current', 'step');
+          } else {
+            entry.step.classList.remove('current');
+            entry.link.removeAttribute('aria-current');
+          }
+        });
+      };
+
+      var ticking = false;
+      var updateActive = function () {
+        ticking = false;
+        var active = null;
+        for (var i = 0; i < order.length; i++) {
+          if (stepByTarget[order[i]].section.getBoundingClientRect().top <= TRIGGER_LINE) {
+            active = order[i];
+          }
+        }
+        setActiveStep(active || 'estado');
+      };
+
+      window.addEventListener('scroll', function () {
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(updateActive);
+        }
+      }, { passive: true });
+
+      window.addEventListener('resize', function () {
+        recalcTriggerLine();
+        updateActive();
+      }, { passive: true });
+
+      updateActive();
+    })();
+  </script>
 </body>
 </html>
