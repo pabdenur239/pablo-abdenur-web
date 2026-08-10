@@ -73,6 +73,14 @@ setInterval(() => {
 
 const MENSAJE_MAX_LENGTH = 2000;
 
+// Límite de tiempo total para una consulta al asistente (clasificación +
+// búsqueda de contexto + generación de respuesta en Ollama, corriendo en
+// CPU). Medido con el modelo ya cargado en memoria: una respuesta normal
+// toma entre 35 y 50 segundos; este valor deja margen para una consulta de
+// un visitante nuevo (que además clasifica el perfil) sin permitir una
+// espera indefinida si Ollama se cuelga.
+const TIMEOUT_ASISTENTE_MS = 90_000;
+
 const app = express();
 app.set('trust proxy', true);
 app.use(express.json({ limit: '15kb' }));
@@ -109,6 +117,9 @@ app.post('/asistente', async (req, res) => {
     return res.status(400).json({ error: 'La consulta es demasiado larga.' });
   }
 
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), TIMEOUT_ASISTENTE_MS);
+
   let client;
   try {
     client = await pool.connect();
@@ -131,7 +142,7 @@ app.post('/asistente', async (req, res) => {
     // 2. Si no eligió perfil en el selector, clasificarlo automáticamente
     //    a partir del primer mensaje (respaldo, no método principal).
     if (!visitante.perfil) {
-      const perfilDetectado = perfil ?? (await classify(PERFILES, mensaje));
+      const perfilDetectado = perfil ?? (await classify(PERFILES, mensaje, { signal: controller.signal }));
       if (perfilDetectado) {
         await client.query('update visitantes set perfil = $1 where id = $2', [perfilDetectado, visitante.id]);
       }
@@ -158,7 +169,7 @@ app.post('/asistente', async (req, res) => {
     );
 
     // 5. Buscar contexto oficial relevante (RAG) en la base local.
-    const queryEmbedding = await embed(mensaje);
+    const queryEmbedding = await embed(mensaje, { signal: controller.signal });
     const { rows: fragmentos } = await client.query(
       'select documento_id, texto, similarity from buscar_fragmentos($1::vector, 5, 0.65)',
       [JSON.stringify(queryEmbedding)],
@@ -170,7 +181,11 @@ app.post('/asistente', async (req, res) => {
     let fuentes = [];
     if (fragmentos.length > 0) {
       const contexto = fragmentos.map((f, i) => `[Fragmento ${i + 1}]\n${f.texto}`).join('\n\n');
-      respuesta = await chat(SYSTEM_PROMPT, `Contexto oficial disponible:\n\n${contexto}\n\nPregunta del visitante: ${mensaje}`);
+      respuesta = await chat(
+        SYSTEM_PROMPT,
+        `Contexto oficial disponible:\n\n${contexto}\n\nPregunta del visitante: ${mensaje}`,
+        { signal: controller.signal },
+      );
 
       // Referencia interna a los documentos usados, para poder mostrar la
       // fuente al visitante en una fase futura. No se expone todavía en
@@ -195,9 +210,14 @@ app.post('/asistente', async (req, res) => {
 
     res.json({ respuesta, visitanteId: visitante.id, conversacionId: conversacion.id, fuentes });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Error interno del asistente.' });
+    if (error.name === 'AbortError') {
+      res.status(504).json({ error: 'El asistente tardó más de lo esperado. Podés reintentar la consulta.' });
+    } else {
+      console.error(error);
+      res.status(500).json({ error: 'Error interno del asistente.' });
+    }
   } finally {
+    clearTimeout(timeoutId);
     client?.release();
   }
 });
