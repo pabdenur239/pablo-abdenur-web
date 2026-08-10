@@ -44,6 +44,7 @@ function buildWidget() {
   launcher.type = 'button';
   launcher.setAttribute('aria-haspopup', 'dialog');
   launcher.setAttribute('aria-expanded', 'false');
+  launcher.setAttribute('aria-label', 'Abrir Secretario Virtual');
   launcher.innerHTML = '<span class="badge" aria-hidden="true"></span><span class="label">💬 Consultar al Asistente</span>';
 
   const panel = document.createElement('div');
