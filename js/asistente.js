@@ -11,6 +11,14 @@ const CONFIG = window.SITIO_CONFIG.asistente;
 const ASISTENTE_ENDPOINT = CONFIG.endpointConversacion;
 const STORAGE_KEY = window.SITIO_CONFIG.storageKey;
 
+// Un poco mayor que el timeout del backend (90s), para que sea el propio
+// rag-service quien corte primero de forma prolija (con un 504 y mensaje
+// claro) en vez de que el widget se rinda antes de que llegue esa respuesta.
+const TIMEOUT_MS = 100_000;
+// A partir de acá, sin respuesta todavía, se avisa que la consulta sigue en
+// curso (las respuestas normales rondan los 35-50s corriendo en CPU).
+const ESPERA_LARGA_MS = 12_000;
+
 const PERFILES = [
   'Vecino', 'Comerciante', 'Emprendedor', 'Periodista', 'Proveedor',
   'Institución', 'Empleado municipal', 'Funcionario', 'Concejal',
@@ -133,7 +141,23 @@ function buildWidget() {
     msg.innerHTML = '<span></span><span></span><span></span>';
     messagesEl.append(msg);
     messagesEl.scrollTop = messagesEl.scrollHeight;
-    return () => msg.remove();
+
+    // Consultas normales rondan los 35-50s (modelo corriendo en CPU): a
+    // los ESPERA_LARGA_MS se lo avisa al visitante para que no piense que
+    // el widget se colgó, sin reintentar ni duplicar la consulta.
+    const avisoId = setTimeout(() => {
+      const aviso = document.createElement('p');
+      aviso.className = 'asis-espera-larga';
+      aviso.setAttribute('aria-live', 'polite');
+      aviso.textContent = 'Estoy consultando la documentación institucional. Esta respuesta puede demorar unos segundos.';
+      msg.before(aviso);
+    }, ESPERA_LARGA_MS);
+
+    return () => {
+      clearTimeout(avisoId);
+      msg.remove();
+      panel.querySelector('.asis-espera-larga')?.remove();
+    };
   }
 
   function renderHistory() {
@@ -176,12 +200,25 @@ function buildWidget() {
     }
   });
 
+  // Mensajes según el tipo de fallo, sin exponer detalle técnico al
+  // visitante. Por defecto (error de red u otro no contemplado) se usa el
+  // mensaje general ya existente.
+  const MENSAJE_FALLBACK = 'No pude conectarme con el asistente en este momento. Podés reintentar en unos minutos o escribir desde la sección de Contacto.';
+  function mensajeDeError(status) {
+    if (status === 429) return 'Hay varias consultas en este momento. Intentá nuevamente en unos segundos.';
+    if (status === 502 || status === 503) return 'El Secretario Virtual no está disponible temporalmente. Intentá nuevamente en unos minutos.';
+    if (status === 504) return 'El Secretario Virtual está tardando más de lo esperado. Podés volver a intentar la consulta.';
+    return MENSAJE_FALLBACK;
+  }
+
   async function askAsistente(mensaje) {
     if (!ASISTENTE_ENDPOINT) {
       addMessage('sistema', 'La conexión con la base documental todavía está en preparación. Por ahora no puedo responder automáticamente, pero tu mensaje quedó registrado en este navegador.');
       return;
     }
     const hideTyping = showTyping();
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), TIMEOUT_MS);
     try {
       const res = await fetch(ASISTENTE_ENDPOINT, {
         method: 'POST',
@@ -192,17 +229,28 @@ function buildWidget() {
           conversacionId: state.conversacionId,
           perfil: state.perfil,
         }),
+        signal: controller.signal,
       });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      if (!res.ok) {
+        hideTyping();
+        addMessage('sistema', mensajeDeError(res.status));
+        return;
+      }
       const data = await res.json();
       state.visitanteId = data.visitanteId ?? state.visitanteId;
       state.conversacionId = data.conversacionId ?? state.conversacionId;
       saveState(state);
       hideTyping();
       addMessage('asistente', data.respuesta, { fuentes: data.fuentes ?? [] });
-    } catch {
+    } catch (error) {
       hideTyping();
-      addMessage('sistema', 'No pude conectarme con el asistente en este momento. Podés reintentar en unos minutos o escribir desde la sección de Contacto.');
+      if (error.name === 'AbortError') {
+        addMessage('sistema', 'El Secretario Virtual está tardando más de lo esperado. Podés volver a intentar la consulta.');
+      } else {
+        addMessage('sistema', MENSAJE_FALLBACK);
+      }
+    } finally {
+      clearTimeout(timeoutId);
     }
   }
 
