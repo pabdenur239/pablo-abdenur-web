@@ -1,0 +1,55 @@
+{
+  "name": "Secretario Virtual — Conversación",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "asistente",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-asistente",
+      "name": "Webhook (widget del sitio)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [260, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://rag-service:3210/asistente",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.body }}",
+        "options": {}
+      },
+      "id": "http-rag-service",
+      "name": "rag-service /asistente",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [520, 300]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json }}",
+        "options": {}
+      },
+      "id": "respond-asistente",
+      "name": "Responder al widget",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [780, 300]
+    }
+  ],
+  "connections": {
+    "Webhook (widget del sitio)": {
+      "main": [[{ "node": "rag-service /asistente", "type": "main", "index": 0 }]]
+    },
+    "rag-service /asistente": {
+      "main": [[{ "node": "Responder al widget", "type": "main", "index": 0 }]]
+    }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" }
+}

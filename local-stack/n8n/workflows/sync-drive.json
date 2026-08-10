@@ -1,0 +1,36 @@
+{
+  "name": "Secretario Virtual — Sincronización documental",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [{ "field": "cronExpression", "expression": "0 4 * * *" }]
+        }
+      },
+      "id": "cron-sync-drive",
+      "name": "Todos los días a las 4:00",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [260, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://rag-service:3210/sync-drive",
+        "options": { "timeout": 600000 }
+      },
+      "id": "http-sync-drive",
+      "name": "rag-service /sync-drive",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [520, 300]
+    }
+  ],
+  "connections": {
+    "Todos los días a las 4:00": {
+      "main": [[{ "node": "rag-service /sync-drive", "type": "main", "index": 0 }]]
+    }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" }
+}
