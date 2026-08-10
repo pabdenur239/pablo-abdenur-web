@@ -95,16 +95,45 @@ function buildWidget() {
     profileGrid.append(btn);
   });
 
-  function addMessage(remitente, contenido, { persist = true } = {}) {
+  function addMessage(remitente, contenido, { persist = true, fuentes = [] } = {}) {
     const msg = document.createElement('div');
     msg.className = `asis-msg ${remitente}`;
     msg.textContent = contenido;
+    if (fuentes.length) {
+      const lista = document.createElement('ul');
+      lista.className = 'asis-fuentes';
+      // El backend manda una fuente por fragmento recuperado: varios
+      // fragmentos suelen venir del mismo documento, así que se
+      // deduplica por título antes de mostrarlas.
+      const titulos = [...new Set(fuentes.map(f => f.titulo).filter(Boolean))];
+      titulos.forEach(titulo => {
+        const item = document.createElement('li');
+        item.textContent = titulo;
+        lista.append(item);
+      });
+      if (lista.children.length) {
+        const etiqueta = document.createElement('p');
+        etiqueta.className = 'asis-fuentes-label';
+        etiqueta.textContent = 'Fuentes:';
+        msg.append(etiqueta, lista);
+      }
+    }
     messagesEl.append(msg);
     messagesEl.scrollTop = messagesEl.scrollHeight;
     if (persist) {
-      state.mensajes.push({ remitente, contenido, ts: Date.now() });
+      state.mensajes.push({ remitente, contenido, ts: Date.now(), fuentes });
       saveState(state);
     }
+  }
+
+  function showTyping() {
+    const msg = document.createElement('div');
+    msg.className = 'asis-msg asistente asis-typing';
+    msg.setAttribute('aria-live', 'polite');
+    msg.innerHTML = '<span></span><span></span><span></span>';
+    messagesEl.append(msg);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+    return () => msg.remove();
   }
 
   function renderHistory() {
@@ -112,7 +141,7 @@ function buildWidget() {
       addMessage('asistente', 'Hola, soy el Secretario Virtual de Pablo Abdenur. Elegí un perfil y contame en qué te puedo ayudar.', { persist: false });
       return;
     }
-    state.mensajes.forEach(m => addMessage(m.remitente, m.contenido, { persist: false }));
+    state.mensajes.forEach(m => addMessage(m.remitente, m.contenido, { persist: false, fuentes: m.fuentes ?? [] }));
   }
   renderHistory();
 
@@ -139,11 +168,20 @@ function buildWidget() {
     textarea.style.height = `${textarea.scrollHeight}px`;
   });
 
+  // Enter envía la consulta; Shift+Enter inserta un salto de línea.
+  textarea.addEventListener('keydown', event => {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+      form.requestSubmit();
+    }
+  });
+
   async function askAsistente(mensaje) {
     if (!ASISTENTE_ENDPOINT) {
-      addMessage('sistema', 'La conexión con la base documental todavía está en preparación (Fase 2). Por ahora no puedo responder automáticamente, pero tu mensaje quedó registrado en este navegador.');
+      addMessage('sistema', 'La conexión con la base documental todavía está en preparación. Por ahora no puedo responder automáticamente, pero tu mensaje quedó registrado en este navegador.');
       return;
     }
+    const hideTyping = showTyping();
     try {
       const res = await fetch(ASISTENTE_ENDPOINT, {
         method: 'POST',
@@ -160,8 +198,10 @@ function buildWidget() {
       state.visitanteId = data.visitanteId ?? state.visitanteId;
       state.conversacionId = data.conversacionId ?? state.conversacionId;
       saveState(state);
-      addMessage('asistente', data.respuesta);
+      hideTyping();
+      addMessage('asistente', data.respuesta, { fuentes: data.fuentes ?? [] });
     } catch {
+      hideTyping();
       addMessage('sistema', 'No pude conectarme con el asistente en este momento. Podés reintentar en unos minutos o escribir desde la sección de Contacto.');
     }
   }
@@ -169,7 +209,7 @@ function buildWidget() {
   form.addEventListener('submit', event => {
     event.preventDefault();
     const mensaje = textarea.value.trim();
-    if (!mensaje) return;
+    if (!mensaje || sendBtn.disabled) return;
     addMessage('visitante', mensaje);
     textarea.value = '';
     textarea.style.height = 'auto';

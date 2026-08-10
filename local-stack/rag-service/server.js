@@ -35,15 +35,78 @@ Reglas estrictas:
 - No inventes fechas, expedientes, ordenanzas, cifras ni cargos.
 - Tono cordial e institucional, en español rioplatense, respuestas breves y claras.`;
 
+// Orígenes desde los que el widget puede llamar a este servicio: el sitio
+// institucional (dominio propio y el de GitHub Pages, por si el DNS todavía
+// no apunta ahí) y los entornos locales de desarrollo/prueba. Fase 5 expone
+// este servicio a Internet vía Cloudflare Tunnel, así que ya no alcanza con
+// "*": cualquier página de cualquier dominio podría llamarlo en nombre de un
+// visitante.
+const ORIGENES_PERMITIDOS = new Set([
+  'https://pabloabdenur.com.ar',
+  'https://www.pabloabdenur.com.ar',
+  'https://pabdenur239.github.io',
+  'http://localhost:8000',
+  'http://127.0.0.1:8000',
+]);
+
+// Ventana simple de límite de solicitudes por IP, en memoria: alcanza para
+// una base de visitantes chica como esta y no agrega infraestructura nueva.
+// No busca frenar un ataque serio (para eso está Cloudflare delante), solo
+// evitar que un cliente sature Ollama/Postgres con reintentos.
+const LIMITE_VENTANA_MS = 60_000;
+const LIMITE_SOLICITUDES = 20;
+const solicitudesPorIp = new Map();
+function excedeLimite(ip) {
+  const ahora = Date.now();
+  const previas = (solicitudesPorIp.get(ip) ?? []).filter(t => ahora - t < LIMITE_VENTANA_MS);
+  previas.push(ahora);
+  solicitudesPorIp.set(ip, previas);
+  return previas.length > LIMITE_SOLICITUDES;
+}
+// Limpieza periódica para no acumular IPs inactivas indefinidamente.
+setInterval(() => {
+  const ahora = Date.now();
+  for (const [ip, tiempos] of solicitudesPorIp) {
+    if (!tiempos.some(t => ahora - t < LIMITE_VENTANA_MS)) solicitudesPorIp.delete(ip);
+  }
+}, LIMITE_VENTANA_MS).unref();
+
+const MENSAJE_MAX_LENGTH = 2000;
+
 const app = express();
-app.use(express.json());
+app.set('trust proxy', true);
+app.use(express.json({ limit: '15kb' }));
+
+// El widget se sirve desde el dominio del sitio, siempre un origen distinto
+// al de este servicio: sin CORS el navegador bloquea la llamada antes de que
+// llegue acá. No hay cookies ni sesión de navegador involucradas (todo el
+// estado va por visitanteId/conversacionId en el body), así que reflejar el
+// origen —solo si está en la lista— no expone nada adicional.
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+  if (origin && ORIGENES_PERMITIDOS.has(origin)) {
+    res.header('Access-Control-Allow-Origin', origin);
+    res.header('Vary', 'Origin');
+  }
+  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  if (req.method === 'OPTIONS') return res.sendStatus(204);
+  next();
+});
 
 app.get('/health', (_req, res) => res.json({ ok: true }));
 
 app.post('/asistente', async (req, res) => {
+  if (excedeLimite(req.ip)) {
+    return res.status(429).json({ error: 'Demasiadas consultas. Esperá un minuto y probá de nuevo.' });
+  }
+
   const { mensaje, visitanteId, conversacionId, perfil } = req.body ?? {};
   if (!mensaje || typeof mensaje !== 'string') {
     return res.status(400).json({ error: 'Falta el mensaje.' });
+  }
+  if (mensaje.length > MENSAJE_MAX_LENGTH) {
+    return res.status(400).json({ error: 'La consulta es demasiado larga.' });
   }
 
   let client;
@@ -142,7 +205,14 @@ app.post('/asistente', async (req, res) => {
 process.on('unhandledRejection', error => console.error('unhandledRejection:', error));
 
 // Disparado por el workflow de n8n programado (cron), no por el widget.
-app.post('/sync-drive', async (_req, res) => {
+// El túnel público (Fase 5) expone todo el servicio, así que acá se corta
+// explícitamente: sincronizar Drive es una operación pesada que solo debe
+// dispararse desde la propia red local (n8n), nunca desde Internet.
+const IPS_LOCALES = new Set(['127.0.0.1', '::1', '::ffff:127.0.0.1']);
+app.post('/sync-drive', async (req, res) => {
+  if (!IPS_LOCALES.has(req.ip)) {
+    return res.status(403).json({ error: 'No disponible desde esta red.' });
+  }
   try {
     const resultado = await sincronizar();
     res.json(resultado);
