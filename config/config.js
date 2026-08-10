@@ -20,21 +20,28 @@ window.SITIO_CONFIG = {
   entorno: 'desarrollo',
 
   asistente: {
-    // Webhook del workflow de n8n "Secretario Virtual — Conversación"
-    // (ver local-stack/n8n/workflows/asistente.json). Vacío = el backend
-    // todavía no está desplegado; el widget lo informa con honestidad
-    // en vez de simular una respuesta.
-    endpointConversacion: '',
+    // Endpoint que llama el widget para conversar (ver js/asistente.js).
+    // Diseño original: el webhook del workflow de n8n "Secretario Virtual
+    // — Conversación" (local-stack/n8n/workflows/asistente.json), que
+    // reenvía tal cual a rag-service. En este entorno local, la
+    // activación del workflow de n8n no tomó efecto para webhooks de
+    // producción (probado por CLI, reinicio y API REST), así que por
+    // ahora apunta directo al rag-service ya validado en Fase 3. n8n
+    // sigue desplegado en local-stack para la sincronización documental
+    // y como camino a retomar: una vez activado, basta con cambiar esta
+    // URL a la del webhook (http://localhost:5678/webhook/asistente).
+    // Vacío = el backend todavía no está desplegado; el widget lo informa
+    // con honestidad en vez de simular una respuesta.
+    endpointConversacion: 'http://localhost:3210/asistente',
 
     // URL base de n8n. No la usa el widget directamente hoy — queda acá
     // para módulos futuros (por ejemplo, un panel interno de estado).
-    n8nUrl: '',
+    n8nUrl: 'http://localhost:5678',
 
-    // URL del servicio rag-service (local-stack/rag-service). El widget
-    // nunca la llama de forma directa: siempre pasa por el webhook de
-    // n8n. Queda documentada acá para no tener que buscarla en el
-    // código cuando haga falta.
-    ragServiceUrl: '',
+    // URL del servicio rag-service (local-stack/rag-service). Coincide
+    // hoy con endpointConversacion (ver nota arriba). Queda documentada
+    // acá para no tener que buscarla en el código cuando haga falta.
+    ragServiceUrl: 'http://localhost:3210',
   },
 
   // Clave de localStorage donde el widget guarda el historial y el

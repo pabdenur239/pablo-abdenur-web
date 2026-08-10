@@ -38,6 +38,20 @@ Reglas estrictas:
 const app = express();
 app.use(express.json());
 
+// El widget se sirve desde el dominio del sitio (GitHub Pages en
+// producción, un puerto distinto en desarrollo local), siempre un origen
+// distinto al de este servicio: sin CORS el navegador bloquea la
+// llamada antes de que llegue acá. No hay cookies ni sesión de
+// navegador involucradas (todo el estado va por visitanteId/
+// conversacionId en el body), así que abrir el origen no expone nada.
+app.use((_req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  if (_req.method === 'OPTIONS') return res.sendStatus(204);
+  next();
+});
+
 app.get('/health', (_req, res) => res.json({ ok: true }));
 
 app.post('/asistente', async (req, res) => {
