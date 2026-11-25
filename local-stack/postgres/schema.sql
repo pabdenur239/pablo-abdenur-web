@@ -96,7 +96,8 @@ returns table (
   id uuid,
   documento_id uuid,
   texto text,
-  similarity float
+  similarity float,
+  metadata jsonb
 )
 language sql stable
 as $$
@@ -104,7 +105,8 @@ as $$
     fragmentos_embebidos.id,
     fragmentos_embebidos.documento_id,
     fragmentos_embebidos.texto,
-    1 - (fragmentos_embebidos.embedding <=> query_embedding) as similarity
+    1 - (fragmentos_embebidos.embedding <=> query_embedding) as similarity,
+    fragmentos_embebidos.metadata
   from fragmentos_embebidos
   where 1 - (fragmentos_embebidos.embedding <=> query_embedding) > match_threshold
   order by fragmentos_embebidos.embedding <=> query_embedding

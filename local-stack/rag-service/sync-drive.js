@@ -139,6 +139,47 @@ function hashTexto(texto) {
   return crypto.createHash('sha256').update(texto).digest('hex');
 }
 
+// Metadatos mínimos por documento (tema / tipo / estado), derivados de la
+// ubicación del archivo dentro de "SITIO WEB" — no de una clasificación
+// manual aparte. La carpeta "1. Presentados" / "2. No Presentados" ya la
+// define el propio equipo de Pablo como fuente oficial, así que su
+// significado (presentado o no ante el Concejo Deliberante) no se inventa
+// acá: se traduce a un campo que server.js puede anteponer al contexto de
+// cada fragmento, para que el modelo nunca reciba la definición de un
+// proyecto sin su estado, sin importar qué fragmento puntual haya
+// recuperado la búsqueda por similitud (ver Fase 4 de la corrección de
+// retrieval).
+export function derivarMetadata(rutaCarpeta) {
+  const ruta = (rutaCarpeta ?? '').toLowerCase();
+  let tema = null;
+  let tipoDocumento = null;
+  let estado = null;
+
+  if (ruta.includes('ejesa')) {
+    tema = 'EJESA / tarifa eléctrica';
+    tipoDocumento = 'Informe técnico de investigación (no es un proyecto de ordenanza)';
+  } else if (ruta.includes('prodecom')) {
+    tema = 'PRODECOM';
+  } else if (ruta.includes('pedido de comunicacion')) {
+    tema = 'Actividad legislativa — Pedido de Comunicación';
+  }
+
+  if (ruta.includes('proyectos de ordenanzas')) {
+    tipoDocumento = tipoDocumento ?? 'Proyecto de Ordenanza (propio)';
+    if (ruta.includes('/1. presentados')) {
+      estado = 'Presentado ante el Concejo Deliberante';
+    } else if (ruta.includes('/2. no presentados')) {
+      estado = 'NO presentado ante el Concejo Deliberante — es una propuesta institucional en elaboración, todavía no es una ordenanza sancionada ni un programa municipal vigente';
+    }
+  } else if (ruta.includes('pedido de ordenanza (en conjunto)')) {
+    tipoDocumento = tipoDocumento ?? 'Proyecto de Ordenanza presentado en conjunto con otro/a concejal/a';
+  } else if (ruta.includes('pedido de comunicacion')) {
+    tipoDocumento = tipoDocumento ?? 'Pedido de Comunicación presentado ante el Concejo Deliberante';
+  }
+
+  return { tema, tipoDocumento, estado };
+}
+
 // Procesa una lista ya obtenida de archivos ({id, name, mimeType, ruta})
 // contra el índice. Se separa de sincronizar() para poder reutilizar
 // exactamente la misma lógica de filtrado/hash/chunking/embeddings desde
@@ -223,12 +264,13 @@ export async function procesarArchivos(client, archivos, obtenerTexto) {
           documentoId = rows[0].id;
         }
 
+        const metadata = derivarMetadata(file.ruta);
         const fragmentos = dividirEnFragmentos(texto);
         for (const fragmentoTexto of fragmentos) {
           const embedding = await embed(fragmentoTexto);
           await client.query(
-            'insert into fragmentos_embebidos (documento_id, texto, embedding) values ($1, $2, $3::vector)',
-            [documentoId, fragmentoTexto, JSON.stringify(embedding)],
+            'insert into fragmentos_embebidos (documento_id, texto, embedding, metadata) values ($1, $2, $3::vector, $4::jsonb)',
+            [documentoId, fragmentoTexto, JSON.stringify(embedding), JSON.stringify(metadata)],
           );
         }
         resultado.actualizados++;
