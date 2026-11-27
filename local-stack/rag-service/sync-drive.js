@@ -158,6 +158,12 @@ export function derivarMetadata(rutaCarpeta) {
   if (ruta.includes('ejesa')) {
     tema = 'EJESA / tarifa eléctrica';
     tipoDocumento = 'Informe técnico de investigación (no es un proyecto de ordenanza)';
+  } else if (ruta.includes('impositiv')) {
+    tema = 'Normativa impositiva municipal';
+    tipoDocumento = 'Documento de la normativa impositiva municipal';
+    if (ruta.includes('deja sin efecto')) {
+      estado = 'HISTÓRICA — dejada sin efecto por el artículo 117 de la Ordenanza N° 3341/2023; no está vigente';
+    }
   } else if (ruta.includes('prodecom')) {
     tema = 'PRODECOM';
   } else if (ruta.includes('pedido de comunicacion')) {
