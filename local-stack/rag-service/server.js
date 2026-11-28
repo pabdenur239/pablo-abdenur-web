@@ -9,6 +9,8 @@
 //   DATABASE_URL, OLLAMA_URL, OLLAMA_CHAT_MODEL, OLLAMA_EMBED_MODEL, PORT
 
 import express from 'express';
+import { readFileSync } from 'node:fs';
+import { timingSafeEqual } from 'node:crypto';
 import { pool } from './db.js';
 import { embed, chat, classify } from './ollama.js';
 import { sincronizar } from './sync-drive.js';
@@ -279,8 +281,24 @@ process.on('unhandledRejection', error => console.error('unhandledRejection:', e
 // explícitamente: sincronizar Drive es una operación pesada que solo debe
 // dispararse desde la propia red local (n8n), nunca desde Internet.
 const IPS_LOCALES = new Set(['127.0.0.1', '::1', '::ffff:127.0.0.1']);
+// n8n llega desde la red interna de Docker (no es 127.0.0.1) y se identifica
+// con un token guardado fuera del repositorio. Todo lo que entra por el túnel
+// público se rechaza aunque traiga token.
+function tokenValido(req) {
+  let esperado = '';
+  try {
+    esperado = readFileSync(process.env.SYNC_TOKEN_FILE, 'utf-8').trim();
+  } catch {
+    return false;
+  }
+  const recibido = Buffer.from(req.get('x-sync-token') ?? '');
+  return esperado.length >= 32 && recibido.length === Buffer.byteLength(esperado)
+    && timingSafeEqual(recibido, Buffer.from(esperado));
+}
+
 app.post('/sync-drive', async (req, res) => {
-  if (!IPS_LOCALES.has(req.ip)) {
+  const porInternet = req.get('cf-connecting-ip') || req.get('cf-ray');
+  if (porInternet || !(IPS_LOCALES.has(req.ip) || tokenValido(req))) {
     return res.status(403).json({ error: 'No disponible desde esta red.' });
   }
   try {

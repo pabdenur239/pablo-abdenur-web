@@ -68,18 +68,17 @@ Copiar esa URL como valor de `ASISTENTE_ENDPOINT` al principio de
 `js/asistente.js` (en la raíz del repositorio, no acá). Con eso el
 widget ya deja de mostrar "en preparación" y conversa de verdad.
 
-## 6. Indexar "SITIO WEB" (para que el asistente tenga qué responder)
+## 6. Indexar "SITIO WEB" (solo lectura)
 
-Hace falta una cuenta de servicio de Google, gratuita, de solo lectura:
+1. En Google Cloud, habilitar **Google Drive API**, crear una cuenta de servicio (sin roles) y descargar su clave JSON.
+2. Guardarla como `%USERPROFILE%\.secretos\pablo-abdenur\drive-sa.json` (fuera del repositorio).
+3. Compartir "SITIO WEB" con el email de la cuenta de servicio, permiso **Lector**.
+4. En `local-stack/.env`, completar `DRIVE_SITIO_WEB_FOLDER_ID`.
+5. En la misma carpeta de secretos, `sync-token` contiene el token que usa n8n (credencial *Header Auth*, cabecera `x-sync-token`).
 
-1. En [Google Cloud Console](https://console.cloud.google.com), crear un proyecto y habilitar la **Google Drive API** (sin costo).
-2. Crear una **cuenta de servicio** y descargar su clave en JSON.
-3. En Google Drive, compartir la carpeta "SITIO WEB" con el email de esa cuenta de servicio (termina en `...gserviceaccount.com`), permiso **Lector**.
-4. Completar en `local-stack/.env`:
-   - `GOOGLE_SERVICE_ACCOUNT_JSON`: el contenido completo del JSON descargado.
-   - `DRIVE_SITIO_WEB_FOLDER_ID`: el ID de la carpeta (la parte de la URL después de `folders/`).
-5. `docker compose up -d --build rag-service` para que tome las variables nuevas.
-6. Disparar la primera sincronización a mano: en n8n, abrir el workflow "Secretario Virtual — Sincronización documental" y ejecutarlo una vez manualmente ("Execute workflow"). Después corre solo, todos los días a las 4:00.
+La sincronización corre todos los días a las 4:00. Solo indexa lo permitido en
+`rag-service/exclusiones.json` (`carpetas_publicas` y `archivos_publicos`); los PDF y Word se leen
+localmente, sin crear ni modificar nada en Drive.
 
 ## Probar todo localmente sin Docker (solo el widget)
 

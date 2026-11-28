@@ -31,9 +31,15 @@ services:
       OLLAMA_URL: http://ollama:11434
       OLLAMA_CHAT_MODEL: ${OLLAMA_CHAT_MODEL:-llama3.2}
       OLLAMA_EMBED_MODEL: ${OLLAMA_EMBED_MODEL:-nomic-embed-text}
-      GOOGLE_SERVICE_ACCOUNT_JSON: ${GOOGLE_SERVICE_ACCOUNT_JSON:-}
+      GOOGLE_SERVICE_ACCOUNT_FILE: /run/secretos/drive-sa.json
+      SYNC_TOKEN_FILE: /run/secretos/sync-token
+      CACHE_DIR: /cache
       DRIVE_SITIO_WEB_FOLDER_ID: ${DRIVE_SITIO_WEB_FOLDER_ID:-}
       PORT: 3210
+    volumes:
+      # Credenciales fuera del repositorio y del sitio público, solo lectura.
+      - ${SECRETOS_DIR:-${USERPROFILE:-${HOME}}/.secretos/pablo-abdenur}:/run/secretos:ro
+      - extraccion_cache:/cache
     ports:
       - "127.0.0.1:3210:3210"
 
@@ -55,3 +61,4 @@ volumes:
   postgres_data:
   ollama_data:
   n8n_data:
+  extraccion_cache:

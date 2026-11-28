@@ -10,5 +10,33 @@
       "motivo": "Borrador de trabajo interno (v3), explícitamente no presentado ante el Concejo Deliberante ni consolidado contra el marco jurídico aplicable."
     }
   ],
-  "incluir": []
+  "incluir": [],
+  "_comentario_publicos": "Lista de permitidos: lo que no esté en carpetas_publicas ni en archivos_publicos NO se indexa. archivos_publicos compara el nombre del archivo (sin extensión, sin distinguir mayúsculas ni acentos). Agregar solo documentos públicos y sin datos personales.",
+  "carpetas_publicas": [
+    "SITIO WEB/1.Pedido de Comunicacion",
+    "SITIO WEB/2.Pedido de Ordenanza (en conjunto)",
+    "SITIO WEB/3.Proyectos de Ordenanzas (propios)/1. Presentados",
+    "SITIO WEB/3.Proyectos de Ordenanzas (propios)/2. No Presentados/PRODECOM",
+    "SITIO WEB/5.EJESA - Estructura Tarifaria",
+    "SITIO WEB/6. Documentos publicos"
+  ],
+  "archivos_publicos": [
+    "02.Ale, Abdenur - Dictamen Tecnologías limpias (079)",
+    "03. Ale - ordenanza (061)",
+    "04. Cespedes, Abdenur - Ordenanza, Tasas (073)",
+    "04.Dictamen com. hacienda Soruco - Rechazo del proyecto de modificacion tributaria (086)",
+    "05.Dictamen com. hacienda Cespedes, Abdenur - modificacion tasa de servicio urbano y limpieza (088)",
+    "06.Dolly Cespedes - hacienda, modificación UT (089)",
+    "05. Cespedes - Ordenanza, Unidades Tributarias(074)",
+    "17.ModificatoriaImpositiva - JonatanCasasola (024)",
+    "25.PabloAbdenur-Solicitud de informe sobre incremento de tasas municipales (037)",
+    "14. Rubio - Régimen de Habilitación comercial simplificada o express (160)",
+    "16. Dictamen de cuerpo de concejales - suspension de habilitaciones de actividades de alto impacto (148)",
+    "23. Comisión de Hacienda - Dictamen reempadronamiento comercial (175)",
+    "25. Comisión de Legislación General - Dictamen habilitación comercial exprés (178)",
+    "26. Comisión de Legislación General - Dictamen planta de personal y jubilaciones (179)",
+    "74. Abdenur - Pedido de Informe Reempadronamiento (156)",
+    "82. Abdenur, Céspedes, Rubio - Comunicación planta de personal y jubilaciones (176)",
+    "01.Resolucion3383(160)"
+  ]
 }

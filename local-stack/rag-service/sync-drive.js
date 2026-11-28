@@ -7,6 +7,11 @@
 // involucrado: la API de Google Drive en modo solo lectura, gratuita
 // dentro de su cuota normal — no es una suscripción ni un servicio pago.
 //
+// Solo lectura: nunca crea, copia, modifica ni borra nada en Drive. La clave
+// de la cuenta de servicio se lee de un archivo montado desde fuera del
+// repositorio (GOOGLE_SERVICE_ACCOUNT_FILE). Solo se indexa lo que permite la
+// lista de documentos públicos de exclusiones.json (ver filtros.js).
+//
 // Sincronización incremental: un documento sin cambios (mismo hash de
 // contenido) no vuelve a pasar por el modelo de embeddings; un documento
 // modificado solo reindexa sus propios fragmentos; un documento borrado
@@ -17,35 +22,42 @@
 // POST /sync-drive de este mismo servicio.
 //
 // Variables de entorno (ver local-stack/.env.example):
-//   GOOGLE_SERVICE_ACCOUNT_JSON, DRIVE_SITIO_WEB_FOLDER_ID
+//   GOOGLE_SERVICE_ACCOUNT_FILE, DRIVE_SITIO_WEB_FOLDER_ID
 //
 // LIMITACIÓN CONOCIDA: varios documentos de "SITIO WEB" son PDF
-// escaneados (fotos de actas y ordenanzas pasadas por un OCR de
-// escritorio). La conversión automática de acá usa el OCR de Google
-// Drive, que es mejor, pero puede arrastrar errores en documentos
-// escaneados de baja calidad. Ver local-stack/README.md.
+// escaneados. Se leen con OCR local (ver extraer.js), que puede arrastrar
+// errores en documentos de baja calidad. Ver local-stack/README.md.
 
 import crypto from 'node:crypto';
+import { readFileSync } from 'node:fs';
 import { pool } from './db.js';
 import { embed } from './ollama.js';
-import { evaluarPorNombre, evaluarPorContenido } from './filtros.js';
+import { evaluarPorNombre, evaluarPorContenido, ocultarDatosPersonales } from './filtros.js';
+import { extraerConCache, MIME_PDF, MIME_DOCX } from './extraer.js';
 
 const CHUNK_SIZE = 1200;
 const CHUNK_OVERLAP = 150;
 
-const NECESITA_CONVERSION = new Set([
-  'application/pdf',
-  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-]);
+const SE_DESCARGA = new Set([MIME_PDF, MIME_DOCX]);
 const GOOGLE_DOC = 'application/vnd.google-apps.document';
 const GOOGLE_FOLDER = 'application/vnd.google-apps.folder';
+
+function leerCredenciales() {
+  const archivo = process.env.GOOGLE_SERVICE_ACCOUNT_FILE;
+  try {
+    return JSON.parse(readFileSync(archivo, 'utf-8'));
+  } catch {
+    // Sin detalles del contenido: nunca se registra nada de la clave.
+    throw new Error('No se pudo leer la clave de la cuenta de servicio (falta el archivo o no es un JSON válido).');
+  }
+}
 
 function base64url(input) {
   return Buffer.from(input).toString('base64').replace(/=+$/, '').replace(/\+/g, '-').replace(/\//g, '_');
 }
 
 async function googleAccessToken() {
-  const credentials = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_JSON);
+  const credentials = leerCredenciales();
   const now = Math.floor(Date.now() / 1000);
   const header = { alg: 'RS256', typ: 'JWT' };
   const claim = {
@@ -72,15 +84,21 @@ async function googleAccessToken() {
 }
 
 async function listarCarpeta(token, folderId, ruta) {
-  const res = await fetch(
-    `https://www.googleapis.com/drive/v3/files?q='${folderId}'+in+parents+and+trashed=false&fields=files(id,name,mimeType)&pageSize=1000`,
-    { headers: { Authorization: `Bearer ${token}` } },
-  );
-  const data = await res.json();
-  if (!res.ok) throw new Error(`Drive list falló: ${JSON.stringify(data)}`);
+  const encontrados = [];
+  let pagina = '';
+  do {
+    const res = await fetch(
+      `https://www.googleapis.com/drive/v3/files?q='${folderId}'+in+parents+and+trashed=false&fields=nextPageToken,files(id,name,mimeType,md5Checksum,modifiedTime)&pageSize=1000${pagina}`,
+      { headers: { Authorization: `Bearer ${token}` } },
+    );
+    const data = await res.json();
+    if (!res.ok) throw new Error(`Drive list falló: ${JSON.stringify(data)}`);
+    encontrados.push(...(data.files ?? []));
+    pagina = data.nextPageToken ? `&pageToken=${encodeURIComponent(data.nextPageToken)}` : '';
+  } while (pagina);
 
   let archivos = [];
-  for (const file of data.files ?? []) {
+  for (const file of encontrados) {
     if (file.mimeType === GOOGLE_FOLDER) {
       archivos = archivos.concat(await listarCarpeta(token, file.id, `${ruta}/${file.name}`));
     } else {
@@ -98,27 +116,14 @@ async function extraerTexto(token, file) {
     return res.ok ? await res.text() : null;
   }
 
-  if (NECESITA_CONVERSION.has(file.mimeType)) {
-    // Copia temporal como Google Doc: dispara el OCR/parseo de Drive.
-    const copyRes = await fetch(`https://www.googleapis.com/drive/v3/files/${file.id}/copy`, {
-      method: 'POST',
-      headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name: `[temporal] ${file.name}`, mimeType: GOOGLE_DOC }),
+  if (SE_DESCARGA.has(file.mimeType)) {
+    return extraerConCache(file, async () => {
+      const res = await fetch(`https://www.googleapis.com/drive/v3/files/${file.id}?alt=media`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (!res.ok) throw new Error(`Descarga falló (${res.status})`);
+      return Buffer.from(await res.arrayBuffer());
     });
-    const copia = await copyRes.json();
-    if (!copyRes.ok) return null;
-
-    try {
-      const exportRes = await fetch(`https://www.googleapis.com/drive/v3/files/${copia.id}/export?mimeType=text/plain`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      return exportRes.ok ? await exportRes.text() : null;
-    } finally {
-      await fetch(`https://www.googleapis.com/drive/v3/files/${copia.id}`, {
-        method: 'DELETE',
-        headers: { Authorization: `Bearer ${token}` },
-      });
-    }
   }
 
   return null; // tipo de archivo no soportado todavía (por ejemplo, imágenes sueltas)
@@ -203,7 +208,6 @@ export async function procesarArchivos(client, archivos, obtenerTexto) {
   try {
     for (const file of archivos) {
       resultado.revisados++;
-      driveIdsVistos.push(file.id);
 
       try {
         // 1. Filtro rápido por nombre, antes de gastar una llamada de
@@ -213,6 +217,9 @@ export async function procesarArchivos(client, archivos, obtenerTexto) {
           resultado.excluidos.push({ archivo: `${file.ruta}/${file.name}`, motivo: filtroNombre.motivo });
           continue;
         }
+        // Solo lo permitido cuenta como "presente": un documento que pasa a
+        // estar excluido se borra también del índice (paso 4).
+        driveIdsVistos.push(file.id);
 
         const textoOriginal = await obtenerTexto(file);
         if (!textoOriginal) {
@@ -227,7 +234,7 @@ export async function procesarArchivos(client, archivos, obtenerTexto) {
           resultado.excluidos.push({ archivo: `${file.ruta}/${file.name}`, motivo: filtroContenido.motivo });
           continue;
         }
-        const texto = filtroContenido.texto;
+        const texto = ocultarDatosPersonales(filtroContenido.texto);
 
         const hash = hashTexto(texto);
 
@@ -313,12 +320,28 @@ export async function procesarArchivos(client, archivos, obtenerTexto) {
   return resultado;
 }
 
+let enCurso = false;
+
 export async function sincronizar() {
+  if (enCurso) throw new Error('Ya hay una sincronización en curso.');
+  enCurso = true;
+  try {
+    return await sincronizarAhora();
+  } finally {
+    enCurso = false;
+  }
+}
+
+async function sincronizarAhora() {
   const client = await pool.connect();
   try {
     const token = await googleAccessToken();
     const folderId = process.env.DRIVE_SITIO_WEB_FOLDER_ID;
+    if (!folderId) throw new Error('Falta DRIVE_SITIO_WEB_FOLDER_ID.');
     const archivos = await listarCarpeta(token, folderId, 'SITIO WEB');
+    // Si la carpeta no está compartida con la cuenta de servicio, Drive
+    // devuelve una lista vacía: sin este corte se borraría todo el índice.
+    if (archivos.length === 0) throw new Error('La carpeta "SITIO WEB" no devolvió archivos: revisar el permiso de Lector. No se modificó el índice.');
     return await procesarArchivos(client, archivos, file => extraerTexto(token, file));
   } finally {
     client.release();

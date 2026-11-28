@@ -23,9 +23,14 @@ function cargarExclusiones() {
   try {
     const raw = readFileSync(join(__dirname, 'exclusiones.json'), 'utf-8');
     const data = JSON.parse(raw);
-    return { excluir: data.excluir ?? [], incluir: data.incluir ?? [] };
+    return {
+      excluir: data.excluir ?? [],
+      incluir: data.incluir ?? [],
+      carpetasPublicas: data.carpetas_publicas ?? [],
+      archivosPublicos: data.archivos_publicos ?? [],
+    };
   } catch {
-    return { excluir: [], incluir: [] };
+    return { excluir: [], incluir: [], carpetasPublicas: [], archivosPublicos: [] };
   }
 }
 
@@ -72,12 +77,30 @@ function reglaManual(file, rutaCompleta) {
   return null;
 }
 
+// Lista de permitidos: "SITIO WEB" también contiene archivo interno, notas de
+// vecinos y temarios con datos personales. Solo se indexa lo que está en una
+// carpeta declarada pública o figura por su nombre en archivos_publicos.
+const normalizar = s => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()
+  .replace(/\.(pdf|docx)$/, '').replace(/\s+/g, ' ').trim();
+
+export function esPublico(file, ruta) {
+  const carpeta = `${normalizar(ruta)}/`;
+  if (EXCLUSIONES.carpetasPublicas.some(c => carpeta.startsWith(`${normalizar(c)}/`))) return true;
+  return EXCLUSIONES.archivosPublicos.some(n => normalizar(n) === normalizar(file.name));
+}
+
+export function ocultarDatosPersonales(texto) {
+  return texto.replace(/\b(D\.?N\.?I\.?|CUIL|CUIT)(\s*(N[°º.o]*)?\s*:?\s*)\d[\d.\s-]{5,12}\d/gi, '$1$2[omitido]');
+}
+
 // Evalúa si un archivo debe indexarse, ANTES de extraer su texto
 // (nombre y ruta solamente). Devuelve { indexar: boolean, motivo: string }.
 export function evaluarPorNombre(file, ruta) {
   const rutaCompleta = `${ruta}/${file.name}`;
   const manual = reglaManual(file, rutaCompleta);
-  if (manual) return { indexar: manual.forzado === 'incluir', motivo: manual.motivo, manual: true };
+  if (manual?.forzado === 'excluir') return { indexar: false, motivo: manual.motivo, manual: true };
+  if (!esPublico(file, ruta)) return { indexar: false, motivo: 'No figura en la lista de documentos públicos.' };
+  if (manual) return { indexar: true, motivo: manual.motivo, manual: true };
 
   const patronNombre = PATRONES_NOMBRE_EXCLUIDO.find(p => p.test(file.name));
   if (patronNombre) return { indexar: false, motivo: `Nombre de archivo sugiere borrador/temporal (${patronNombre}).` };
